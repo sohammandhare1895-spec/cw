@@ -1,0 +1,4296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Resource Hub | AI-Powered Learning Portal</title>
+    <style>
+        /* ==================== CSS VARIABLES ==================== */
+        :root {
+            --primary: #003366;
+            --secondary: #e67e22;
+            --accent: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --purple: #9b59b6;
+            --light: #f4f7f6;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --header-height: 94px;
+            --nav-height: 60px;
+        }
+
+        /* ==================== GLOBAL STYLES ==================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            user-select: none;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-top: calc(var(--header-height) + var(--nav-height));
+        }
+
+        /* Prevent visibility during printing */
+        @media print {
+            body, .jarvis-container, .modal, .main-nav { display: none !important; }
+        }
+
+        /* ==================== SECURITY OVERLAY ==================== */
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .security-overlay h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--danger);
+            text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+        }
+
+        .security-overlay p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+
+        .security-countdown {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin: 20px 0;
+            text-shadow: 0 0 15px rgba(230, 126, 34, 0.7);
+        }
+
+        /* ==================== HEADER STYLES ==================== */
+        .main-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+            color: white;
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--secondary);
+            height: var(--header-height);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            height: 65px;
+            width: 65px;
+            border-radius: 50%;
+            border: 3px solid white;
+            padding: 5px;
+            background: white;
+        }
+
+        .title-container h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, white, #ffd166);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        .title-container p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ==================== JARVIS AI ADVISOR ==================== */
+        .jarvis-container {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            width: 320px;
+            z-index: 999;
+            transition: var(--transition);
+        }
+
+        .jarvis-toggle {
+            background: linear-gradient(135deg, var(--secondary) 0%, #d35400 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+            transition: var(--transition);
+        }
+
+        .jarvis-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+        }
+
+        .jarvis-ai {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .jarvis-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .jarvis-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .jarvis-title h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .jarvis-title p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .advice-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+        }
+
+        .advice-container:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .advice-category {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .advice-text {
+            font-size: 1rem;
+            color: var(--dark);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .advice-author {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-style: italic;
+            text-align: right;
+        }
+
+        .jarvis-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .jarvis-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .prev-btn {
+            background: #f8f9fa;
+            color: var(--primary);
+            border: 1px solid #ddd;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .random-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* ==================== BANNER STYLES ==================== */
+        .hero-banner {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 51, 102, 0.9)),
+                        url('https://image2url.com/r2/bucket3/images/1768053383354-8d964188-310e-471c-aca2-9a1319c306b1.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .banner-content {
+            max-width: 800px;
+            padding: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .banner-content h2 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .banner-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ==================== NAVIGATION TABS ==================== */
+        .main-nav {
+            background: var(--primary);
+            padding: 0;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: var(--nav-height);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 1px;
+            height: 100%;
+        }
+
+        .nav-tab {
+            color: white;
+            padding: 0 35px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-weight: bold;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab.active {
+            background: var(--secondary);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: white;
+        }
+
+        /* ==================== MAIN CONTENT AREA ==================== */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+            min-height: 600px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* ==================== STUDY MATERIALS SECTION ==================== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .dept-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--primary);
+        }
+
+        .dept-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .dept-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 30px;
+            color: white;
+        }
+
+        .dept-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .dept-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .dept-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .dept-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dept-features li:before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .purchase-btn {
+            background: linear-gradient(135deg, var(--secondary) 0%, #d35400 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .purchase-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(230, 126, 34, 0.3);
+        }
+
+        .price-tag {
+            background: white;
+            color: var(--secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        /* ==================== STUDENT DASHBOARD ==================== */
+        .student-dashboard {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+            display: none;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .student-info h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .student-info p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .student-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 140px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* ==================== LOGIN MODAL FIXED STYLES ==================== */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalSlideIn 0.5s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-login {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-login:hover {
+            color: var(--danger);
+            background: #f8f9fa;
+            transform: rotate(90deg);
+        }
+
+        .login-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .login-tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: bold;
+            color: var(--gray);
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+            font-size: 1.1rem;
+            position: relative;
+            background: #f8f9fa;
+        }
+
+        .login-tab:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .login-tab:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .login-tab.active {
+            color: var(--primary);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .login-form {
+            display: none;
+            padding: 10px 0;
+        }
+
+        .login-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+            outline: none;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background: #f8f9fa;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .select-input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+            outline: none;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.3);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .form-footer a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* ==================== AUTHORITY DASHBOARD STYLES ==================== */
+        .auth-section {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-input {
+            padding: 16px 25px;
+            width: 300px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: #f8f9fa;
+        }
+
+        .auth-input:focus {
+            border-color: var(--secondary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.1);
+            outline: none;
+        }
+
+        .eye-scanner-container {
+            width: 350px;
+            height: 250px;
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        #eye-scanner-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.8), transparent);
+            top: 50%;
+            animation: scan 2s linear infinite;
+            filter: blur(1px);
+            z-index: 2;
+        }
+
+        .scanner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            z-index: 3;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .department-dashboard {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .current-user {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 1001;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ==================== PAYMENT MODAL ==================== */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .payment-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+            text-align: center;
+        }
+
+        .payment-qr {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            border: 2px solid var(--primary);
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .payment-qr img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .payment-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .payment-info p {
+            margin: 10px 0;
+            color: var(--dark);
+        }
+
+        .upload-screenshot {
+            border: 2px dashed var(--primary);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upload-screenshot:hover {
+            background: #f8f9fa;
+            border-color: var(--secondary);
+        }
+
+        .upload-screenshot input {
+            display: none;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px auto;
+            transition: var(--transition);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        /* ==================== DATABASE MANAGEMENT STYLES ==================== */
+        .database-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .database-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .database-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .database-table th {
+            background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        .database-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .database-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .access-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .status-active {
+            background: var(--success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        .status-expired {
+            background: var(--danger);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        .course-management {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .semester-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .semester-btn {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .semester-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .subject-editor {
+            margin: 30px 0;
+        }
+
+        .subject-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--primary);
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload-area:hover {
+            background: #f8f9fa;
+            border-color: var(--secondary);
+        }
+
+        .file-upload-area input {
+            display: none;
+        }
+
+        .uploaded-files {
+            margin: 20px 0;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* ==================== MATERIAL ACCESS SECTION ==================== */
+        .materials-access {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .branch-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .branch-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .branch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .branch-card.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .year-selector {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .year-btn {
+            padding: 12px 25px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .year-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .semester-materials {
+            margin: 30px 0;
+        }
+
+        .subject-materials {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .material-files {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .file-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover {
+            background: #004080;
+        }
+
+        /* ==================== MODAL STYLES ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+            margin-bottom: 20px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+            background: #f8f9fa;
+            transform: rotate(90deg);
+        }
+
+        /* ==================== FOOTER ==================== */
+        .main-footer {
+            background: linear-gradient(135deg, var(--primary) 0%, #002244 100%);
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 9999;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 1024px) {
+            .departments-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .jarvis-container {
+                position: static;
+                width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .hero-banner h2 {
+                font-size: 2.2rem;
+            }
+            
+            .stats-container {
+                flex-wrap: wrap;
+            }
+            
+            body {
+                padding-top: calc(var(--header-height) + var(--nav-height) + 60px);
+            }
+            
+            .jarvis-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                width: 100%;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                padding: 20px;
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+                height: auto;
+            }
+            
+            .nav-tab {
+                padding: 15px 20px;
+                flex: 1;
+                min-width: 140px;
+            }
+            
+            .departments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .student-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .login-content, .auth-section {
+                padding: 30px;
+            }
+            
+            .hero-banner {
+                height: 500px;
+                padding: 20px;
+            }
+            
+            .banner-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .jarvis-ai {
+                max-height: 400px;
+            }
+            
+            .main-nav {
+                position: relative;
+                top: 0;
+            }
+            
+            body {
+                padding-top: 0;
+            }
+            
+            .database-table {
+                font-size: 12px;
+            }
+            
+            .database-table th,
+            .database-table td {
+                padding: 8px 10px;
+            }
+            
+            .login-content {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .login-tabs {
+                margin-bottom: 20px;
+            }
+            
+            .login-tab {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-tab {
+                min-width: 100%;
+            }
+            
+            .stat-box {
+                min-width: 120px;
+            }
+            
+            .auth-input, .eye-scanner-container {
+                width: 100%;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .dept-card {
+                padding: 25px;
+            }
+            
+            .payment-content {
+                padding: 20px;
+            }
+            
+            .payment-qr {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .login-content {
+                padding: 25px 15px;
+            }
+            
+            .form-input, .select-input {
+                padding: 12px 15px;
+            }
+            
+            .login-btn {
+                padding: 14px;
+            }
+        }
+
+        /* ==================== UTILITY CLASSES ==================== */
+        .btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #004080 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary) 0%, #d35400 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #219653 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background-color: var(--secondary);
+            top: 0;
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        @keyframes confettiRain {
+            0% {
+                opacity: 1;
+                top: -100px;
+                transform: rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                top: 100vh;
+                transform: rotate(720deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            animation: slideInRight 0.5s ease-out;
+            border-left: 5px solid var(--success);
+            max-width: 350px;
+        }
+
+        .notification-warning {
+            border-left-color: var(--warning);
+        }
+
+        .notification-danger {
+            border-left-color: var(--danger);
+        }
+
+        .notification-info {
+            border-left-color: var(--info);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .scrollable-table {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+    </style>
+    <!-- Add SheetJS library for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body oncontextmenu="return false;">
+    <!-- ==================== SECURITY OVERLAY ==================== -->
+    <div id="security-overlay" class="security-overlay">
+        <h1>⚠️ SECURITY ALERT</h1>
+        <p>Unauthorized screenshot attempt detected!</p>
+        <p>This portal is protected against unauthorized data capture.</p>
+        <div class="security-countdown" id="security-countdown">10</div>
+        <p>Returning to safe mode in <span id="countdown-seconds">10</span> seconds...</p>
+        <button class="btn btn-danger" onclick="dismissSecurityAlert()" style="margin-top: 20px;">Dismiss Alert</button>
+    </div>
+
+    <!-- ==================== STUDENT LOGIN MODAL (FIXED) ==================== -->
+    <div id="student-login-modal" class="login-modal">
+        <div class="login-content">
+            <span class="close-login" onclick="closeLoginModal()">&times;</span>
+            <h2 style="text-align: center; color: var(--primary); margin-bottom: 30px;">🎓 Student Portal</h2>
+            
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="showLoginForm('login')">Login</button>
+                <button class="login-tab" onclick="showLoginForm('register')">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="login-form active">
+                <div class="form-group">
+                    <label class="form-label">Email or Mobile Number</label>
+                    <input type="text" id="login-email" class="form-input" placeholder="Enter your email or mobile number" onkeypress="if(event.key === 'Enter') studentLogin()">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Enter your password" onkeypress="if(event.key === 'Enter') studentLogin()">
+                </div>
+                
+                <div style="text-align: right; margin-bottom: 25px;">
+                    <a href="#" onclick="showForgotPassword()" style="color: var(--primary); text-decoration: none; font-weight: 500;">Forgot Password?</a>
+                </div>
+                
+                <button class="login-btn" onclick="studentLogin()">
+                    <span id="login-btn-text">Login to Account</span>
+                    <span id="login-loading" class="loading hidden"></span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>New student? <a href="#" onclick="showLoginForm('register')" style="color: var(--primary); text-decoration: none; font-weight: bold;">Create Account</a></p>
+                </div>
+            </div>
+            
+            <!-- Registration Form -->
+            <div id="register-form" class="login-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="register-name" class="form-input" placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="Enter your email address">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mobile Number</label>
+                    <input type="tel" id="register-mobile" class="form-input" placeholder="Enter your 10-digit mobile number">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Branch</label>
+                    <select id="register-branch" class="select-input">
+                        <option value="">Select your branch</option>
+                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                        <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                        <option value="Artificial Intelligence and Engineering">Artificial Intelligence and Engineering</option>
+                        <option value="Information Technology and Engineering">Information Technology and Engineering</option>
+                        <option value="Electronics and Telecommunication Engineering">Electronics and Telecommunication Engineering</option>
+                        <option value="Civil Engineering">Civil Engineering</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Year</label>
+                    <select id="register-year" class="select-input">
+                        <option value="">Select year</option>
+                        <option value="First Year">First Year</option>
+                        <option value="Second Year">Second Year</option>
+                        <option value="Third Year">Third Year</option>
+                        <option value="Fourth Year">Fourth Year</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Semester</label>
+                    <select id="register-semester" class="select-input">
+                        <option value="">Select semester</option>
+                        <option value="1st Sem">1st Semester</option>
+                        <option value="2nd Sem">2nd Semester</option>
+                        <option value="3rd Sem">3rd Semester</option>
+                        <option value="4th Sem">4th Semester</option>
+                        <option value="5th Sem">5th Semester</option>
+                        <option value="6th Sem">6th Semester</option>
+                        <option value="7th Sem">7th Semester</option>
+                        <option value="8th Sem">8th Semester</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Create Password</label>
+                    <input type="password" id="register-password" class="form-input" placeholder="Create a strong password">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" class="form-input" placeholder="Confirm your password">
+                </div>
+                
+                <button class="login-btn" onclick="studentRegister()">
+                    <span id="register-btn-text">Create Account</span>
+                    <span id="register-loading" class="loading hidden"></span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" onclick="showLoginForm('login')" style="color: var(--primary); text-decoration: none; font-weight: bold;">Login Here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PAYMENT MODAL ==================== -->
+    <div id="payment-modal" class="payment-modal">
+        <div class="payment-content">
+            <span class="close-modal" onclick="closeModal('payment-modal')">&times;</span>
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Complete Your Purchase</h2>
+            
+            <div class="payment-info">
+                <p><strong>Course:</strong> <span id="payment-course-name"></span></p>
+                <p><strong>Price:</strong> ₹<span id="payment-course-price"></span></p>
+                <p><strong>Validity:</strong> 1 Year from purchase date</p>
+            </div>
+            
+            <h3 style="margin: 20px 0; color: var(--dark);">Scan to Pay via PhonePe</h3>
+            
+            <div class="payment-qr">
+                <img src="https://i.ibb.co/hFXK13pQ/phonepe-qr.png" alt="PhonePe QR Code" id="qr-code-image">
+            </div>
+            
+            <div class="payment-info">
+                <p><strong>UPI ID:</strong> your-upi-id@phonepe</p>
+                <p><strong>Amount:</strong> ₹<span id="payment-amount"></span></p>
+                <p><strong>After payment:</strong> Share screenshot on WhatsApp +91 9876543210</p>
+            </div>
+            
+            <div class="upload-screenshot" onclick="document.getElementById('screenshot-upload').click()">
+                <input type="file" id="screenshot-upload" accept="image/*" onchange="handleScreenshotUpload(event)">
+                <h4>📱 Upload Payment Screenshot</h4>
+                <p>Click here to upload your payment confirmation</p>
+                <small>Supported: JPG, PNG (Max: 5MB)</small>
+            </div>
+            
+            <div id="uploaded-screenshot" style="display: none; margin: 20px 0;">
+                <img id="screenshot-preview" src="" alt="Screenshot Preview" style="max-width: 200px; border-radius: 10px;">
+                <p style="color: var(--success); margin-top: 10px;">✓ Screenshot uploaded successfully!</p>
+            </div>
+            
+            <button class="whatsapp-btn" onclick="shareOnWhatsApp()">
+                <span>📱 Share on WhatsApp</span>
+            </button>
+            
+            <button class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="completePayment()">
+                <span>✅ Complete Purchase</span>
+                <span id="payment-loading" class="loading hidden"></span>
+            </button>
+            
+            <p style="margin-top: 20px; color: var(--gray); font-size: 0.9rem;">
+                Note: Access will be granted within 24 hours after verification
+            </p>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN HEADER ==================== -->
+    <header class="main-header">
+        <div class="logo-section">
+            <img src="https://image2url.com/r2/bucket2/images/1768053484032-0ee7640f-a9a3-4a1e-ae73-be04f9c1bd02.png" alt="Logo" class="logo">
+            <div class="title-container">
+                <h1>Engineering Resource Hub</h1>
+                <p>Soham N. Mandhare (IT) & Dnyaneshwar N. Satpute (CSE)</p>
+            </div>
+        </div>
+        
+        <div class="header-controls">
+            <div id="student-profile" class="user-profile hidden" onclick="openStudentDashboard()">
+                <div class="avatar" id="user-avatar" style="width: 40px; height: 40px; background: var(--secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">JD</div>
+                <div>
+                    <div style="font-weight: bold; font-size: 14px;" id="user-name">John Doe</div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.8);" id="user-branch">CSE - 3rd Year</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="openLoginModal()" id="login-button">
+                <span>👤 Student Login</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ==================== JARVIS AI ADVISOR ==================== -->
+    <div class="jarvis-container">
+        <button class="jarvis-toggle" onclick="toggleJarvis()">
+            <span>🤖 Senior's Advice</span>
+            <span id="jarvis-icon">▼</span>
+        </button>
+        
+        <div class="jarvis-ai" id="jarvis-ai">
+            <div class="jarvis-header">
+                <div class="jarvis-avatar">
+                    🤖
+                </div>
+                <div class="jarvis-title">
+                    <h3>Senior's AI Advisor</h3>
+                    <p>500+ Engineering Tips & Wisdom</p>
+                </div>
+            </div>
+            
+            <div id="advice-display">
+                <div class="advice-container">
+                    <span class="advice-category" id="advice-category">Academic Excellence</span>
+                    <p class="advice-text" id="advice-text">Fundamentals are your best friends; don't skip them for shortcuts.</p>
+                    <p class="advice-author" id="advice-author">— Senior Engineer</p>
+                </div>
+            </div>
+            
+            <div class="jarvis-controls">
+                <button class="jarvis-btn prev-btn" onclick="prevAdvice()">◀ Previous</button>
+                <button class="jarvis-btn random-btn" onclick="randomAdvice()">🎲 Random</button>
+                <button class="jarvis-btn next-btn" onclick="nextAdvice()">Next ▶</button>
+            </div>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <small style="color: var(--gray);">
+                    <span id="advice-counter">1</span> of 500+ advices
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== HERO BANNER ==================== -->
+    <div class="hero-banner">
+        <div class="banner-content">
+            <h2>4th Semester Knowledge Base</h2>
+            <p>Exclusive Notes, Papers & Solutions for All Engineering Branches</p>
+            
+            <div style="margin-top: 40px;">
+                <button class="btn btn-secondary" style="margin-right: 15px;" onclick="showTab('study')">Explore Materials</button>
+                <button class="btn btn-primary" onclick="openLoginModal()">Get Started</button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Study Materials</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1200+</div>
+                    <div class="stat-label">Question Papers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Engineering Branches</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.8</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN NAVIGATION ==================== -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <button class="nav-tab active" onclick="showTab('study')">
+                📚 Study Material
+            </button>
+            <button class="nav-tab" onclick="showTab('materials')">
+                📖 My Materials
+            </button>
+            <button class="nav-tab" onclick="showTab('papers')">
+                📝 Question Papers
+            </button>
+            <button class="nav-tab" onclick="showTab('profile')">
+                🔐 Authority Portal
+            </button>
+            <button class="nav-tab" onclick="showTab('resources')">
+                💼 Placement Resources
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <main class="main-content">
+        <!-- Study Materials Section -->
+        <section id="study-section" class="content-section active">
+            <div class="section-header">
+                <h2>Browse Study Materials</h2>
+                <p>Comprehensive resources for all engineering branches. Select your department to access notes, videos, and reference materials.</p>
+            </div>
+            
+            <div class="departments-grid">
+                <!-- Mechanical Engineering -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">⚙️</div>
+                    <h3>Mechanical Engineering</h3>
+                    <p>Complete 4th semester syllabus with practical demonstrations and solved examples.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Thermodynamics & Heat Transfer</li>
+                        <li>Theory of Machines (TOM)</li>
+                        <li>Material Science & Engineering</li>
+                        <li>Fluid Mechanics</li>
+                        <li>Machine Drawing & CAD</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('Mechanical Engineering Complete Package', 50, 'ME001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+                
+                <!-- Computer Science & Engineering -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">💻</div>
+                    <h3>Computer Science & Engineering</h3>
+                    <p>Comprehensive resources for core CS subjects with coding examples and project ideas.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Data Structures & Algorithms</li>
+                        <li>Database Management Systems</li>
+                        <li>Operating Systems</li>
+                        <li>Computer Networks</li>
+                        <li>Object Oriented Programming</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('Computer Science Complete Package', 50, 'CSE001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+                
+                <!-- Artificial Intelligence & Engineering -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">🧠</div>
+                    <h3>Artificial Intelligence & Engineering</h3>
+                    <p>Cutting-edge AI/ML resources with Python implementations and real-world projects.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Machine Learning Fundamentals</li>
+                        <li>Neural Networks & Deep Learning</li>
+                        <li>Natural Language Processing</li>
+                        <li>Computer Vision</li>
+                        <li>Reinforcement Learning</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('AI Engineering Complete Package', 50, 'AI001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+                
+                <!-- Information Technology -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">🔧</div>
+                    <h3>Information Technology</h3>
+                    <p>IT infrastructure, web technologies, and software engineering practices.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Web Technologies & Frameworks</li>
+                        <li>Software Engineering</li>
+                        <li>Cloud Computing</li>
+                        <li>Cybersecurity Fundamentals</li>
+                        <li>Mobile Application Development</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('Information Technology Complete Package', 50, 'IT001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+                
+                <!-- Electronics & Telecommunication -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">📡</div>
+                    <h3>Electronics & Telecommunication</h3>
+                    <p>Circuit design, communication systems, and embedded systems development.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Digital Electronics</li>
+                        <li>Communication Systems</li>
+                        <li>Microprocessors & Microcontrollers</li>
+                        <li>VLSI Design</li>
+                        <li>Signal Processing</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('Electronics & Telecommunication Package', 50, 'ETC001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+                
+                <!-- Civil Engineering -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">🏗️</div>
+                    <h3>Civil Engineering</h3>
+                    <p>Structural analysis, construction materials, and surveying techniques.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Surveying & Leveling</li>
+                        <li>Concrete Technology</li>
+                        <li>Structural Mechanics</li>
+                        <li>Transportation Engineering</li>
+                        <li>Environmental Engineering</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('Civil Engineering Complete Package', 50, 'CE001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+                
+                <!-- Electrical Engineering -->
+                <div class="dept-card">
+                    <div class="price-tag">₹50</div>
+                    <div class="dept-icon">⚡</div>
+                    <h3>Electrical Engineering</h3>
+                    <p>Power systems, electrical machines, and control systems engineering.</p>
+                    
+                    <ul class="dept-features">
+                        <li>Power Systems Analysis</li>
+                        <li>Electrical Machines</li>
+                        <li>Control Systems</li>
+                        <li>Power Electronics</li>
+                        <li>Renewable Energy Systems</li>
+                    </ul>
+                    
+                    <button class="purchase-btn" onclick="initiatePayment('Electrical Engineering Complete Package', 50, 'EE001')">
+                        <span>🔓 Unlock All Materials</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Student Dashboard (Shown when logged in) -->
+            <div id="student-dashboard" class="student-dashboard">
+                <div class="dashboard-header">
+                    <div class="student-info">
+                        <h2>Welcome back, <span id="dashboard-name">John Doe</span>!</h2>
+                        <p><span id="dashboard-branch">Computer Science and Engineering</span> | <span id="dashboard-year">Third Year</span> | <span id="dashboard-semester">5th Semester</span></p>
+                        
+                        <div class="student-stats">
+                            <div class="stat-box">
+                                <div class="stat-value" id="courses-count">0</div>
+                                <div class="stat-label">Courses Purchased</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="total-spent">₹0</div>
+                                <div class="stat-label">Total Spent</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="materials-count">0</div>
+                                <div class="stat-label">Study Materials</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="validity">30</div>
+                                <div class="stat-label">Days Remaining</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn-danger" onclick="studentLogout()">Logout</button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;">My Purchased Courses</h3>
+                    <div id="purchased-courses" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                        <p style="color: var(--gray);" id="no-courses-msg">No courses purchased yet. Browse available courses above.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Materials Section -->
+        <section id="materials-section" class="content-section">
+            <div class="section-header">
+                <h2>My Study Materials</h2>
+                <p>Access all your purchased study materials and resources</p>
+            </div>
+            
+            <div id="materials-access" class="materials-access">
+                <div id="no-access-message" style="text-align: center; padding: 50px;">
+                    <h3 style="color: var(--gray); margin-bottom: 20px;">No Access Yet</h3>
+                    <p style="color: var(--gray); margin-bottom: 30px;">Purchase a course to access study materials</p>
+                    <button class="btn btn-primary" onclick="showTab('study')">Browse Courses</button>
+                </div>
+                
+                <div id="branch-selector-container" style="display: none;">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;">Select Your Branch</h3>
+                    <div class="branch-selector" id="branch-selector">
+                        <!-- Branches will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div id="year-selector-container" style="display: none; margin-top: 30px;">
+                    <h3 style="color: var(--primary); margin-bottom: 20px;">Select Academic Year</h3>
+                    <div class="year-selector" id="year-selector">
+                        <!-- Years will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div id="semester-materials-container" style="display: none; margin-top: 30px;">
+                    <!-- Semester materials will be dynamically added here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Question Papers Section -->
+        <section id="papers-section" class="content-section">
+            <div class="section-header">
+                <h2>Previous Year Question Papers</h2>
+                <p>Access question papers from 2018-2024 with solutions and marking schemes.</p>
+            </div>
+            
+            <div class="auth-section">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px;">
+                    <div class="card">
+                        <h3>2023-24 Question Papers</h3>
+                        <p>Latest semester papers with model answers</p>
+                        <button class="btn btn-secondary" onclick="initiatePayment('2023-24 Papers', 30, 'QP001')">Subscribe @ ₹30</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>2022-23 Question Papers</h3>
+                        <p>Complete set with solutions</p>
+                        <button class="btn btn-secondary" onclick="initiatePayment('2022-23 Papers', 30, 'QP002')">Subscribe @ ₹30</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Solved Papers Pack</h3>
+                        <p>Step-by-step solutions</p>
+                        <button class="btn btn-secondary" onclick="initiatePayment('Solved Papers Pack', 40, 'QP003')">Subscribe @ ₹40</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Model Answer Sheets</h3>
+                        <p>Perfect answers for scoring</p>
+                        <button class="btn btn-secondary" onclick="initiatePayment('Model Answer Sheets', 25, 'QP004')">Subscribe @ ₹25</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authority Profile Section -->
+        <section id="profile-section" class="content-section">
+            <div id="auth-gateway" class="auth-section">
+                <h2>🔐 Authority Access Portal</h2>
+                <p>Enter department code for administrative access</p>
+                <input type="password" id="adminCode" class="auth-input" placeholder="Enter Access Code" onkeypress="if(event.key === 'Enter') checkAuthority()">
+                <br>
+                <button class="btn btn-secondary" style="width: 200px; margin-top: 15px;" onclick="checkAuthority()">Verify Identity</button>
+                
+                <div id="eye-scanner" class="eye-scanner-container">
+                    <video id="eye-scanner-video" autoplay></video>
+                    <div class="scanner-line"></div>
+                    <div class="scanner-text">🔍 Scanning Retina Pattern...</div>
+                </div>
+                
+                <div id="authorization-result" style="margin-top: 30px; display: none;">
+                    <h3 id="auth-result-text" style="color: var(--success);">✅ Identity Verified</h3>
+                    <button class="btn btn-success" style="width: 200px; margin-top: 20px;" onclick="proceedToDashboard()">Proceed to Dashboard</button>
+                </div>
+            </div>
+            
+            <!-- Authority Database Dashboard -->
+            <div id="authority-dashboard" class="department-dashboard">
+                <div class="current-user" id="current-user-display"></div>
+                
+                <div class="database-container">
+                    <div class="database-controls">
+                        <h2 style="color: var(--primary);">📊 Student Database Management</h2>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" onclick="exportToExcel()">📥 Export Excel</button>
+                            <button class="btn btn-success" onclick="refreshDatabase()">🔄 Refresh</button>
+                            <button class="btn btn-danger" onclick="logoutAuthority()">🚪 Logout</button>
+                        </div>
+                    </div>
+                    
+                    <div class="scrollable-table">
+                        <table class="database-table" id="student-database-table">
+                            <thead>
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Mobile No.</th>
+                                    <th>Year</th>
+                                    <th>Semester</th>
+                                    <th>Purchased Course</th>
+                                    <th>Validity From</th>
+                                    <th>Validity To</th>
+                                    <th>Access</th>
+                                    <th>Payment Details</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="database-table-body">
+                                <!-- Database rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <p style="color: var(--gray);">Total Students: <span id="total-students-count">0</span></p>
+                    </div>
+                </div>
+                
+                <!-- Course Management Section -->
+                <div class="course-management">
+                    <h2 style="color: var(--primary); margin-bottom: 20px;">📚 Course Content Management</h2>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: var(--dark); margin-bottom: 15px;">Select Branch</h3>
+                        <select id="branch-management-select" class="select-input" style="width: 100%;" onchange="loadBranchContent()">
+                            <option value="">Select Branch</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                            <option value="Artificial Intelligence and Engineering">Artificial Intelligence and Engineering</option>
+                            <option value="Information Technology and Engineering">Information Technology and Engineering</option>
+                            <option value="Electronics and Telecommunication Engineering">Electronics and Telecommunication Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                        </select>
+                    </div>
+                    
+                    <div id="year-management-container" style="display: none;">
+                        <h3 style="color: var(--dark); margin-bottom: 15px;">Select Year</h3>
+                        <div class="year-selector" id="year-management-selector">
+                            <button class="year-btn" onclick="selectYearForManagement(1)">First Year</button>
+                            <button class="year-btn" onclick="selectYearForManagement(2)">Second Year</button>
+                            <button class="year-btn" onclick="selectYearForManagement(3)">Third Year</button>
+                            <button class="year-btn" onclick="selectYearForManagement(4)">Fourth Year</button>
+                        </div>
+                    </div>
+                    
+                    <div id="semester-management-container" style="display: none; margin-top: 30px;">
+                        <h3 style="color: var(--dark); margin-bottom: 15px;">Select Semester</h3>
+                        <div class="semester-selector" id="semester-management-selector">
+                            <!-- Semesters will be dynamically added here -->
+                        </div>
+                    </div>
+                    
+                    <div id="subject-management-container" style="display: none; margin-top: 30px;">
+                        <div class="subject-editor" id="subject-editor">
+                            <!-- Subject management will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Placement Resources Section -->
+        <section id="resources-section" class="content-section">
+            <div class="section-header">
+                <h2>💼 Placement Resources</h2>
+                <p>Complete placement preparation package with aptitude tests, technical interviews, and resume building.</p>
+            </div>
+            
+            <div class="auth-section">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px;">
+                    <div class="card">
+                        <h3>Aptitude Mastery</h3>
+                        <p>1000+ aptitude questions with solutions</p>
+                        <button class="btn btn-primary" onclick="initiatePayment('Aptitude Mastery', 50, 'APT001')">Subscribe @ ₹50</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Technical Interview Prep</h3>
+                        <p>Company-wise question banks</p>
+                        <button class="btn btn-primary" onclick="initiatePayment('Technical Interview Prep', 60, 'TIP001')">Subscribe @ ₹60</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Resume Building</h3>
+                        <p>Professional templates & reviews</p>
+                        <button class="btn btn-primary" onclick="initiatePayment('Resume Building', 30, 'RB001')">Subscribe @ ₹30</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Engineering Resource Hub</h3>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">A comprehensive platform for engineering students by seniors.</p>
+                <div style="display: flex; gap: 15px;">
+                    <span style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px;">⚙️</span>
+                    <span style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px;">💻</span>
+                    <span style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px;">🧠</span>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showTab('study')">📚 Study Materials</a></li>
+                    <li><a href="#" onclick="showTab('materials')">📖 My Materials</a></li>
+                    <li><a href="#" onclick="showTab('papers')">📝 Question Papers</a></li>
+                    <li><a href="#" onclick="showTab('resources')">💼 Placement Prep</a></li>
+                    <li><a href="#" onclick="openLoginModal()">👤 Student Login</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:support@engineeringhub.edu">📧 support@engineeringhub.edu</a></li>
+                    <li><a href="tel:+919876543210">📞 +91 98765 43210</a></li>
+                    <li><a href="#">📍 Engineering College Campus</a></li>
+                    <li><a href="#">🕒 Mon-Sat: 9AM - 6PM</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Stay Connected</h3>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">Follow us for updates and resources</p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="#" style="color: white; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; text-decoration: none;">📘</a>
+                    <a href="#" style="color: white; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; text-decoration: none;">🐦</a>
+                    <a href="#" style="color: white; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; text-decoration: none;">💼</a>
+                    <a href="#" style="color: white; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; text-decoration: none;">📷</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2024 Engineering Resource Hub. All rights reserved. | Created by Soham Mandhare & Dnyaneshwar Satpute</p>
+        </div>
+    </footer>
+
+    <div class="watermark">Property of Mandhare & Satpute Departments</div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let currentStudent = null;
+        let currentAuthority = null;
+        let currentAdviceIndex = 0;
+        let isJarvisOpen = false;
+        let currentPaymentCourse = null;
+        let currentPaymentPrice = 0;
+        let currentPaymentId = null;
+        let uploadedScreenshot = null;
+        
+        // Security variables
+        let securityTimer = null;
+        let screenshotAttempts = 0;
+        
+        // Student data storage keys
+        const STUDENT_STORAGE_KEY = "engineering_portal_students_v4";
+        const CURRENT_STUDENT_KEY = "engineering_portal_current_student_v4";
+        const COURSES_STORAGE_KEY = "engineering_portal_courses_v4";
+        const MATERIALS_STORAGE_KEY = "engineering_portal_materials_v4";
+        const PAYMENTS_STORAGE_KEY = "engineering_portal_payments_v4";
+        
+        // Authority codes
+        const AUTHORITY_CODES = {
+            "1895": {
+                name: "Soham Naneshwar Mandhare",
+                department: "Information Technology",
+                accessLevel: "admin"
+            },
+            "2385": {
+                name: "Dnyaneshwar Narhari Satpute",
+                department: "Computer Science",
+                accessLevel: "admin"
+            }
+        };
+        
+        // Available courses for purchase
+        const AVAILABLE_COURSES = {
+            "ME001": { id: "ME001", name: "Mechanical Engineering Complete", price: 50, duration: "1 Year", branch: "Mechanical Engineering" },
+            "CSE001": { id: "CSE001", name: "Computer Science Complete", price: 50, duration: "1 Year", branch: "Computer Science and Engineering" },
+            "AI001": { id: "AI001", name: "AI Engineering Complete", price: 50, duration: "1 Year", branch: "Artificial Intelligence and Engineering" },
+            "IT001": { id: "IT001", name: "Information Technology Complete", price: 50, duration: "1 Year", branch: "Information Technology and Engineering" },
+            "ETC001": { id: "ETC001", name: "Electronics & Telecommunication Package", price: 50, duration: "1 Year", branch: "Electronics and Telecommunication Engineering" },
+            "CE001": { id: "CE001", name: "Civil Engineering Complete", price: 50, duration: "1 Year", branch: "Civil Engineering" },
+            "EE001": { id: "EE001", name: "Electrical Engineering Complete", price: 50, duration: "1 Year", branch: "Electrical Engineering" },
+            "QP001": { id: "QP001", name: "2023-24 Papers", price: 30, duration: "1 Year", branch: "All" },
+            "QP002": { id: "QP002", name: "2022-23 Papers", price: 30, duration: "1 Year", branch: "All" },
+            "QP003": { id: "QP003", name: "Solved Papers Pack", price: 40, duration: "1 Year", branch: "All" },
+            "QP004": { id: "QP004", name: "Model Answer Sheets", price: 25, duration: "1 Year", branch: "All" },
+            "APT001": { id: "APT001", name: "Aptitude Mastery", price: 50, duration: "1 Year", branch: "All" },
+            "TIP001": { id: "TIP001", name: "Technical Interview Prep", price: 60, duration: "1 Year", branch: "All" },
+            "RB001": { id: "RB001", name: "Resume Building", price: 30, duration: "1 Year", branch: "All" }
+        };
+        
+        // Default course materials structure
+        const DEFAULT_COURSE_STRUCTURE = {
+            "Mechanical Engineering": {
+                "First Year": {
+                    "1st Sem": ["Engineering Mathematics-I", "Engineering Physics", "Basic Electrical Engineering", "Engineering Graphics", "Environmental Studies"],
+                    "2nd Sem": ["Engineering Mathematics-II", "Engineering Chemistry", "Programming for Problem Solving", "Engineering Mechanics", "Workshop Practice"]
+                },
+                "Second Year": {
+                    "3rd Sem": ["Mechanics of Solids", "Thermodynamics", "Manufacturing Processes", "Material Science", "Engineering Mathematics-III"],
+                    "4th Sem": ["Fluid Mechanics", "Theory of Machines", "Machine Drawing", "Heat Transfer", "Industrial Engineering"]
+                }
+            },
+            "Computer Science and Engineering": {
+                "First Year": {
+                    "1st Sem": ["Engineering Mathematics-I", "Engineering Physics", "Basic Electrical Engineering", "Programming in C", "Environmental Studies"],
+                    "2nd Sem": ["Engineering Mathematics-II", "Engineering Chemistry", "Data Structures", "Digital Logic Design", "Workshop Practice"]
+                },
+                "Second Year": {
+                    "3rd Sem": ["Discrete Mathematics", "Object Oriented Programming", "Computer Organization", "Database Management Systems", "Operating Systems"],
+                    "4th Sem": ["Design and Analysis of Algorithms", "Computer Networks", "Software Engineering", "Microprocessors", "Web Technologies"]
+                }
+            }
+        };
+        
+        // ==================== 500+ ENGINEERING ADVICES ====================
+        const ENGINEERING_ADVICES = [
+            { category: "Academic Excellence", text: "Fundamentals are your best friends; don't skip them for shortcuts.", author: "Senior Engineer" },
+            { category: "Academic Excellence", text: "The 4th semester is the turning point—focus now or struggle later.", author: "3rd Year Topper" },
+            { category: "Academic Excellence", text: "Don't just collect PDFs; read at least five pages a day.", author: "Academic Advisor" },
+            { category: "Academic Excellence", text: "\"Standard Textbooks\" are written by experts for a reason. Use them.", author: "Professor" },
+            { category: "Academic Excellence", text: "Your notes are your intellectual property. Write them clearly.", author: "Senior" },
+            { category: "Academic Excellence", text: "Diagrams carry more marks than a wall of text.", author: "Examination Head" },
+            { category: "Academic Excellence", text: "Understand the why before you memorize the how.", author: "Research Scholar" },
+            { category: "Academic Excellence", text: "Previous year question papers are the \"cheat code\" to passing exams.", author: "Exam Strategist" },
+            { category: "Academic Excellence", text: "Never leave a question blank in the university paper.", author: "Evaluation Expert" },
+            { category: "Academic Excellence", text: "Theoretical knowledge is a skeleton; practicals are the flesh.", author: "Lab Incharge" },
+            { category: "Academic Excellence", text: "Internal marks are free marks. Don't lose them.", author: "Class Representative" },
+            { category: "Academic Excellence", text: "Laboratory sincerity is directly proportional to viva performance.", author: "Lab Assistant" },
+            { category: "Academic Excellence", text: "The library is not a sleeping zone; it's a knowledge repository.", author: "Librarian" },
+            { category: "Academic Excellence", text: "If you don't understand a concept, YouTube it—but from a credible source.", author: "Online Educator" },
+            { category: "Academic Excellence", text: "CGPA is a gatekeeper; once you're inside the gate, your skills take over.", author: "Placement Officer" },
+            { category: "Academic Excellence", text: "Study in groups, but test yourself alone.", author: "Study Group Leader" },
+            { category: "Academic Excellence", text: "A 70% understanding of all subjects is better than 100% of one.", author: "Academic Counselor" },
+            { category: "Academic Excellence", text: "Revision is not a last-minute activity; it's a weekly ritual.", author: "Memory Expert" },
+            { category: "Academic Excellence", text: "Your semester project is your first portfolio item. Treat it seriously.", author: "Project Guide" },
+            { category: "Academic Excellence", text: "Attendance is not just a percentage; it's exposure to concepts.", author: "HOD" },
+            { category: "Technical Skills", text: "Consistency in coding is better than a 24-hour marathon once a month.", author: "Software Developer" },
+            { category: "Technical Skills", text: "Data Structures and Algorithms (DSA) are the bread and butter of IT/CSE.", author: "FAANG Engineer" },
+            { category: "Technical Skills", text: "Don't just copy-paste from StackOverflow; understand the logic.", author: "Senior Developer" },
+            { category: "Technical Skills", text: "GitHub is your digital resume. Start committing today.", author: "Open Source Contributor" },
+            { category: "Technical Skills", text: "Your mini-project in the 2nd year shouldn't just be a \"CRUD\" app.", author: "Project Mentor" },
+            { category: "Technical Skills", text: "Learn a language deeply (Java/C++/Python) rather than three superficially.", author: "Programming Expert" },
+            { category: "Technical Skills", text: "Documentation is as important as the code itself.", author: "Tech Lead" },
+            { category: "Technical Skills", text: "Participating in hackathons is about the journey, not the prize.", author: "Hackathon Winner" },
+            { category: "Technical Skills", text: "Open-source contributions make you stand out from thousands.", author: "OSS Maintainer" },
+            { category: "Technical Skills", text: "Clean code is a sign of a professional engineer.", author: "Software Architect" },
+            { category: "Technical Skills", text: "API integration is a skill every modern engineer needs.", author: "Backend Developer" },
+            { category: "Technical Skills", text: "Database design is an art; normalization is its science.", author: "Database Administrator" },
+            { category: "Technical Skills", text: "Cloud computing is not \"optional\" anymore.", author: "Cloud Architect" },
+            { category: "Technical Skills", text: "Technologies change every six months; your logic-building ability stays forever.", author: "Tech Veteran" },
+            { category: "Technical Skills", text: "Build things that solve real problems, not just academic exercises.", author: "Entrepreneur" },
+            { category: "Technical Skills", text: "Your laptop is your workstation. Keep it organized and optimized.", author: "System Admin" },
+            { category: "Technical Skills", text: "Keyboard shortcuts save hours in the long run.", author: "Productivity Expert" },
+            { category: "Technical Skills", text: "Learn to use version control from day one.", author: "DevOps Engineer" },
+            { category: "Technical Skills", text: "Automate repetitive tasks; that's what engineers do.", author: "Automation Specialist" },
+            { category: "Technical Skills", text: "Debugging is a superpower. Develop it.", author: "Debugging Guru" },
+            { category: "Networking", text: "Seniors are your first professional network. Respect them.", author: "Alumni" },
+            { category: "Networking", text: "Ask for help before you're completely lost.", author: "Mentor" },
+            { category: "Networking", text: "A junior who listens is a junior a senior wants to mentor.", author: "Senior Student" },
+            { category: "Networking", text: "Join college clubs—they are the boardrooms of the future.", author: "Club President" },
+            { category: "Networking", text: "Networking isn't about \"using\" people; it's about building value.", author: "Network Strategist" },
+            { category: "Networking", text: "Attend tech talks, even if you don't understand half of it.", author: "Tech Speaker" },
+            { category: "Networking", text: "LinkedIn is for professional growth, not social validation.", author: "Career Coach" },
+            { category: "Networking", text: "When a senior gives you a roadmap, follow it; they've already hit the potholes.", author: "Graduate Student" },
+            { category: "Networking", text: "Be the junior who helps others; it comes back to you in the final year.", author: "Class Helper" },
+            { category: "Networking", text: "Collaboration > Competition.", author: "Team Leader" },
+            { category: "Networking", text: "The connections you make in the canteen are often as valuable as the ones in the classroom.", author: "Campus Veteran" },
+            { category: "Networking", text: "Your professors have industry connections. Build relationships with them.", author: "Department Head" },
+            { category: "Networking", text: "Alumni networks are gold mines of opportunities.", author: "Alumni Coordinator" },
+            { category: "Networking", text: "A simple \"thank you\" email after guidance goes a long way.", author: "Email Etiquette Expert" },
+            { category: "Networking", text: "Share resources with your peers; knowledge grows when shared.", author: "Resource Curator" },
+            { category: "Networking", text: "Join online communities related to your field.", author: "Community Manager" },
+            { category: "Networking", text: "Your batchmates today will be your colleagues tomorrow.", author: "Future Colleague" },
+            { category: "Networking", text: "Network vertically (with seniors/juniors) and horizontally (with batchmates).", author: "Network Architect" },
+            { category: "Networking", text: "A coffee conversation can be more valuable than a lecture.", author: "Conversation Expert" },
+            { category: "Networking", text: "Remember names and interests; it shows genuine care.", author: "Relationship Builder" },
+            { category: "Productivity", text: "Engineering is a marathon, not a sprint. Don't burn out in Year 2.", author: "Wellness Coach" },
+            { category: "Productivity", text: "Sleep is a performance enhancer. Don't skip it for gaming.", author: "Sleep Specialist" },
+            { category: "Productivity", text: "An organized desk leads to an organized mind.", author: "Organization Expert" },
+            { category: "Productivity", text: "It's okay to fail a test, but it's not okay to give up on the subject.", author: "Resilience Coach" },
+            { category: "Productivity", text: "Find a hobby outside of screens. Your eyes need the break.", author: "Eye Care Specialist" },
+            { category: "Productivity", text: "Procrastination is the grave where dreams are buried.", author: "Motivational Speaker" },
+            { category: "Productivity", text: "Use the \"Pomodoro Technique\" during submission weeks.", author: "Time Management Guru" },
+            { category: "Productivity", text: "Don't compare your Chapter 1 to someone else's Chapter 20.", author: "Mindfulness Coach" },
+            { category: "Productivity", text: "Drink water. Dehydration looks like brain fog.", author: "Health Expert" },
+            { category: "Productivity", text: "Your mental health is more important than a 10/10 CGPA.", author: "Counselor" },
+            { category: "Productivity", text: "Schedule your day, but leave room for spontaneity.", author: "Scheduling Expert" },
+            { category: "Productivity", text: "The most productive hours are often the quietest ones.", author: "Early Riser" },
+            { category: "Productivity", text: "Multitasking is a myth; focus on one thing at a time.", author: "Focus Expert" },
+            { category: "Productivity", text: "Take notes by hand; it enhances memory retention.", author: "Memory Researcher" },
+            { category: "Productivity", text: "Set weekly goals, not just semester goals.", author: "Goal Setting Coach" },
+            { category: "Productivity", text: "Learn to say 'no' to distractions.", author: "Discipline Expert" },
+            { category: "Productivity", text: "Your phone is a tool, not a master. Use it wisely.", author: "Digital Wellness Coach" },
+            { category: "Productivity", text: "Physical exercise improves cognitive function.", author: "Fitness Trainer" },
+            { category: "Productivity", text: "Review your week every Sunday night.", author: "Weekly Reviewer" },
+            { category: "Productivity", text: "Small consistent efforts beat occasional massive efforts.", author: "Consistency Coach" },
+            { category: "Career", text: "Start looking for internships in your 4th semester.", author: "Internship Coordinator" },
+            { category: "Career", text: "Aptitude tests are the first round of every placement. Practice them daily.", author: "Aptitude Trainer" },
+            { category: "Career", text: "Communication skills are the \"software\" that runs your \"technical hardware\".", author: "Communication Coach" },
+            { category: "Career", text: "A simple resume is better than a flashy one.", author: "HR Manager" },
+            { category: "Career", text: "Mock interviews are embarrassing, but they save you from real failure.", author: "Interview Coach" },
+            { category: "Career", text: "Don't wait for the college placement cell to find you a job. Be proactive.", author: "Career Strategist" },
+            { category: "Career", text: "Learn how to explain your project to a non-technical person.", author: "Presentation Expert" },
+            { category: "Career", text: "Diversify your skills but specialize in one domain.", author: "Career Advisor" },
+            { category: "Career", text: "Certificates don't get you jobs; projects do.", author: "Recruitment Head" },
+            { category: "Career", text: "The world doesn't need \"just\" engineers; it needs problem solvers.", author: "Industry Leader" },
+            { category: "Career", text: "Treat your 4 years as a training ground for the next 40 years.", author: "Career Visionary" },
+            { category: "Career", text: "\"Engineers turn dreams into reality. Start dreaming today.\"", author: "Final Year Batch" },
+            { category: "Career", text: "Your first job is not your last job. Focus on learning.", author: "Career Changer" },
+            { category: "Career", text: "Build a personal brand online.", author: "Personal Branding Expert" },
+            { category: "Career", text: "Learn business basics; engineers often become entrepreneurs.", author: "Entrepreneur Mentor" },
+            { category: "Career", text: "Soft skills are what make hard skills valuable.", author: "Soft Skills Trainer" },
+            { category: "Career", text: "Prepare for GATE from the 3rd year if you plan for higher studies.", author: "GATE Topper" },
+            { category: "Career", text: "Research papers in undergrad? Yes, it's possible and valuable.", author: "Research Guide" },
+            { category: "Career", text: "Startup culture is not for everyone. Know your risk appetite.", author: "Startup Founder" },
+            { category: "Career", text: "Lifelong learning is not optional in engineering.", author: "Industry Veteran" }
+        ];
+        
+        // Generate remaining advices to reach 500+
+        for (let i = ENGINEERING_ADVICES.length; i < 500; i++) {
+            const categories = ["Academic Excellence", "Technical Skills", "Networking", "Productivity", "Career"];
+            const authors = ["Senior Engineer", "Alumni", "Professor", "Industry Expert", "Mentor", "Career Coach"];
+            
+            const category = categories[Math.floor(Math.random() * categories.length)];
+            const author = authors[Math.floor(Math.random() * authors.length)];
+            
+            const templates = [
+                `Focus on mastering ${["the fundamentals", "core concepts", "basic principles", "essential skills"][Math.floor(Math.random() * 4)]} first.`,
+                `Regular practice of ${["problem solving", "coding", "analysis", "design"][Math.floor(Math.random() * 4)]} leads to mastery.`,
+                `${["Consistency", "Persistence", "Dedication", "Discipline"][Math.floor(Math.random() * 4)]} beats talent when talent doesn't work hard.`,
+                `Your ${["attitude", "approach", "mindset", "perspective"][Math.floor(Math.random() * 4)]} determines your altitude in engineering.`,
+                `Learn to ${["communicate", "collaborate", "innovate", "adapt"][Math.floor(Math.random() * 4)]} effectively alongside technical skills.`,
+                `${["Theory", "Practical knowledge", "Hands-on experience", "Real-world application"][Math.floor(Math.random() * 4)]} is equally important.`,
+                `Don't underestimate the power of ${["networking", "mentorship", "peer learning", "self-study"][Math.floor(Math.random() * 4)]}.`,
+                `${["Time management", "Resource optimization", "Efficient studying", "Smart work"][Math.floor(Math.random() * 4)]} is a superpower.`,
+                `Your ${["first project", "semester grades", "internship", "research paper"][Math.floor(Math.random() * 4)]} can change your career trajectory.`,
+                `Balance ${["academics and hobbies", "theory and practice", "individual and group work", "learning and applying"][Math.floor(Math.random() * 4)]}.`
+            ];
+            
+            const text = templates[Math.floor(Math.random() * templates.length)];
+            
+            ENGINEERING_ADVICES.push({
+                category: category,
+                text: text,
+                author: "— " + author
+            });
+        }
+        
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Engineering Resource Hub Initialized - Complete System");
+            
+            // Check for existing student session
+            checkStudentLoginStatus();
+            
+            // Initialize Jarvis with random advice
+            currentAdviceIndex = Math.floor(Math.random() * ENGINEERING_ADVICES.length);
+            displayAdvice(currentAdviceIndex);
+            
+            // Initialize tab system
+            showTab('study');
+            
+            // Initialize security system
+            initializeSecurity();
+            
+            // Initialize database
+            initializeDatabase();
+            
+            // Display total advices count
+            document.getElementById('advice-counter').textContent = "1 of " + ENGINEERING_ADVICES.length;
+            
+            // Setup enter key for authority code
+            document.getElementById('adminCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAuthority();
+                }
+            });
+            
+            // Setup enter key for login form
+            document.getElementById('login-email')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') studentLogin();
+            });
+            
+            document.getElementById('login-password')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') studentLogin();
+            });
+        });
+        
+        // ==================== DATABASE SYSTEM ====================
+        function initializeDatabase() {
+            // Initialize storage if not exists
+            if (!localStorage.getItem(STUDENT_STORAGE_KEY)) {
+                localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify([]));
+            }
+            
+            if (!localStorage.getItem(COURSES_STORAGE_KEY)) {
+                localStorage.setItem(COURSES_STORAGE_KEY, JSON.stringify(DEFAULT_COURSE_STRUCTURE));
+            }
+            
+            if (!localStorage.getItem(MATERIALS_STORAGE_KEY)) {
+                localStorage.setItem(MATERIALS_STORAGE_KEY, JSON.stringify({}));
+            }
+            
+            if (!localStorage.getItem(PAYMENTS_STORAGE_KEY)) {
+                localStorage.setItem(PAYMENTS_STORAGE_KEY, JSON.stringify([]));
+            }
+        }
+        
+        function getStudentsFromStorage() {
+            const studentsJSON = localStorage.getItem(STUDENT_STORAGE_KEY);
+            return studentsJSON ? JSON.parse(studentsJSON) : [];
+        }
+        
+        function getCoursesFromStorage() {
+            const coursesJSON = localStorage.getItem(COURSES_STORAGE_KEY);
+            return coursesJSON ? JSON.parse(coursesJSON) : DEFAULT_COURSE_STRUCTURE;
+        }
+        
+        function getMaterialsFromStorage() {
+            const materialsJSON = localStorage.getItem(MATERIALS_STORAGE_KEY);
+            return materialsJSON ? JSON.parse(materialsJSON) : {};
+        }
+        
+        function getPaymentsFromStorage() {
+            const paymentsJSON = localStorage.getItem(PAYMENTS_STORAGE_KEY);
+            return paymentsJSON ? JSON.parse(paymentsJSON) : [];
+        }
+        
+        function updateStudentInDatabase(student) {
+            const students = getStudentsFromStorage();
+            const index = students.findIndex(s => s.id === student.id);
+            
+            if (index !== -1) {
+                students[index] = student;
+            } else {
+                students.push(student);
+            }
+            
+            localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify(students));
+            
+            // Update payments record
+            const payments = getPaymentsFromStorage();
+            payments.push({
+                studentId: student.id,
+                studentName: student.name,
+                course: student.purchasedCourses[student.purchasedCourses.length - 1],
+                amount: student.totalSpent - (student.previousTotal || 0),
+                date: new Date().toISOString(),
+                status: 'pending_verification'
+            });
+            
+            localStorage.setItem(PAYMENTS_STORAGE_KEY, JSON.stringify(payments));
+            
+            // If authority is logged in, refresh database view
+            if (currentAuthority) {
+                refreshDatabase();
+            }
+        }
+        
+        function refreshDatabase() {
+            if (!currentAuthority) return;
+            
+            const students = getStudentsFromStorage();
+            const tbody = document.getElementById('database-table-body');
+            tbody.innerHTML = '';
+            
+            let totalStudents = 0;
+            let activeSubscriptions = 0;
+            
+            students.forEach((student, index) => {
+                totalStudents++;
+                
+                // Check if student has active subscription
+                const hasActiveSubscription = student.purchasedCourses && student.purchasedCourses.length > 0;
+                if (hasActiveSubscription) activeSubscriptions++;
+                
+                // Calculate validity dates
+                const today = new Date();
+                const validityFrom = student.subscriptionStart || today.toISOString().split('T')[0];
+                const validityTo = new Date(today);
+                validityTo.setFullYear(validityTo.getFullYear() + 1);
+                const validityToStr = validityTo.toISOString().split('T')[0];
+                
+                // Check if subscription is active
+                const isActive = hasActiveSubscription && new Date(validityTo) > today;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.branch}</td>
+                    <td>${student.mobile}</td>
+                    <td>${student.year}</td>
+                    <td>${student.semester}</td>
+                    <td>${hasActiveSubscription ? student.purchasedCourses.join(', ') : 'None'}</td>
+                    <td>${validityFrom}</td>
+                    <td>${validityToStr}</td>
+                    <td>
+                        <select class="access-checkbox" onchange="updateStudentAccess('${student.id}', this.value)">
+                            <option value="no" ${!isActive ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isActive ? 'selected' : ''}>Yes</option>
+                        </select>
+                    </td>
+                    <td>
+                        ${hasActiveSubscription ? 
+                            `₹${student.totalSpent || 0}<br><small>${student.paymentMethod || 'PhonePe'}</small>` : 
+                            'No Payment'
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;" onclick="viewStudentDetails('${student.id}')">View</button>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteStudent('${student.id}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('total-students-count').textContent = totalStudents;
+            
+            // Update dashboard stats if needed
+            const dashboard = document.querySelector('.database-controls');
+            if (dashboard) {
+                const stats = dashboard.querySelector('h2');
+                if (stats) {
+                    stats.innerHTML = `📊 Student Database Management <small style="font-size: 14px; color: var(--gray);">(${totalStudents} students, ${activeSubscriptions} active)</small>`;
+                }
+            }
+        }
+        
+        function updateStudentAccess(studentId, access) {
+            const students = getStudentsFromStorage();
+            const student = students.find(s => s.id === studentId);
+            
+            if (student) {
+                student.accessGranted = access === 'yes';
+                student.accessUpdated = new Date().toISOString();
+                
+                if (access === 'yes' && !student.subscriptionStart) {
+                    student.subscriptionStart = new Date().toISOString().split('T')[0];
+                }
+                
+                localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify(students));
+                
+                showNotification(`Access updated for ${student.name}`, "success");
+                
+                // If this is the current student, update their UI
+                if (currentStudent && currentStudent.id === studentId) {
+                    currentStudent = student;
+                    localStorage.setItem(CURRENT_STUDENT_KEY, JSON.stringify(student));
+                    updateStudentUI();
+                }
+            }
+        }
+        
+        function viewStudentDetails(studentId) {
+            const students = getStudentsFromStorage();
+            const student = students.find(s => s.id === studentId);
+            
+            if (student) {
+                alert(`
+                    Student Details:
+                    
+                    ID: ${student.id}
+                    Name: ${student.name}
+                    Email: ${student.email}
+                    Mobile: ${student.mobile}
+                    Branch: ${student.branch}
+                    Year: ${student.year}
+                    Semester: ${student.semester}
+                    
+                    Purchased Courses: ${student.purchasedCourses ? student.purchasedCourses.join(', ') : 'None'}
+                    Total Spent: ₹${student.totalSpent || 0}
+                    
+                    Access Granted: ${student.accessGranted ? 'Yes' : 'No'}
+                    Subscription Start: ${student.subscriptionStart || 'Not started'}
+                    Last Login: ${student.lastLogin ? new Date(student.lastLogin).toLocaleString() : 'Never'}
+                    
+                    Joined: ${student.joinedDate}
+                `);
+            }
+        }
+        
+        function deleteStudent(studentId) {
+            if (confirm("Are you sure you want to delete this student record? This action cannot be undone.")) {
+                const students = getStudentsFromStorage();
+                const filteredStudents = students.filter(s => s.id !== studentId);
+                localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify(filteredStudents));
+                
+                showNotification("Student record deleted", "danger");
+                refreshDatabase();
+            }
+        }
+        
+        function exportToExcel() {
+            const students = getStudentsFromStorage();
+            
+            // Prepare data for Excel
+            const excelData = students.map((student, index) => ({
+                'Sr.No.': index + 1,
+                'Student ID': student.id,
+                'Name': student.name,
+                'Branch': student.branch,
+                'Mobile No.': student.mobile,
+                'Year': student.year,
+                'Semester': student.semester,
+                'Purchased Course': student.purchasedCourses ? student.purchasedCourses.join(', ') : 'None',
+                'Validity From': student.subscriptionStart || 'N/A',
+                'Validity To': student.subscriptionStart ? 
+                    new Date(new Date(student.subscriptionStart).setFullYear(new Date(student.subscriptionStart).getFullYear() + 1)).toISOString().split('T')[0] : 
+                    'N/A',
+                'Access': student.accessGranted ? 'Yes' : 'No',
+                'Payment Amount': `₹${student.totalSpent || 0}`,
+                'Joined Date': student.joinedDate
+            }));
+            
+            // Create worksheet
+            const ws = XLSX.utils.json_to_sheet(excelData);
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Students Database");
+            
+            // Generate file name with timestamp
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
+            const fileName = `Engineering_Hub_Database_${timestamp}.xlsx`;
+            
+            // Save file
+            XLSX.writeFile(wb, fileName);
+            
+            showNotification("Database exported to Excel successfully", "success");
+        }
+        
+        // ==================== LOGIN MODAL FUNCTIONS ====================
+        function openLoginModal() {
+            document.getElementById('student-login-modal').style.display = 'flex';
+            showLoginForm('login');
+            
+            // Reset form fields
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('student-login-modal').style.display = 'none';
+        }
+        
+        function showLoginForm(formType) {
+            // Update tabs
+            document.querySelectorAll('.login-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
+            
+            // Show selected form
+            document.getElementById(formType + '-form').classList.add('active');
+            
+            // Update active tab
+            const tabs = document.querySelectorAll('.login-tab');
+            if (formType === 'login') {
+                tabs[0].classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+            }
+            
+            // Reset form fields for registration if showing register form
+            if (formType === 'register') {
+                document.getElementById('register-name').value = '';
+                document.getElementById('register-email').value = '';
+                document.getElementById('register-mobile').value = '';
+                document.getElementById('register-branch').value = '';
+                document.getElementById('register-year').value = '';
+                document.getElementById('register-semester').value = '';
+                document.getElementById('register-password').value = '';
+                document.getElementById('register-confirm-password').value = '';
+            }
+        }
+        
+        function showForgotPassword() {
+            alert("Password reset feature coming soon!\n\nFor now, please contact admin at support@engineeringhub.edu\nor WhatsApp: +91 9876543210");
+        }
+        
+        function studentLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            
+            if (!email || !password) {
+                showNotification("Please fill in all fields", "warning");
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('login-btn-text').style.display = 'none';
+            document.getElementById('login-loading').classList.remove('hidden');
+            
+            setTimeout(() => {
+                // Get students from localStorage
+                const students = getStudentsFromStorage();
+                
+                // Find student
+                const student = students.find(s => 
+                    s.email === email || s.mobile === email
+                );
+                
+                if (!student) {
+                    showNotification("Student not found. Please register first.", "danger");
+                    document.getElementById('login-btn-text').style.display = 'inline';
+                    document.getElementById('login-loading').classList.add('hidden');
+                    return;
+                }
+                
+                // Check password
+                if (student.password !== password) {
+                    showNotification("Incorrect password. Please try again.", "danger");
+                    document.getElementById('login-btn-text').style.display = 'inline';
+                    document.getElementById('login-loading').classList.add('hidden');
+                    return;
+                }
+                
+                // Login successful
+                currentStudent = student;
+                student.lastLogin = new Date().toISOString();
+                localStorage.setItem(CURRENT_STUDENT_KEY, JSON.stringify(student));
+                
+                // Update student in database
+                updateStudentInDatabase(student);
+                
+                // Update UI
+                updateStudentUI();
+                
+                // Close modal
+                closeLoginModal();
+                
+                // Reset form
+                document.getElementById('login-btn-text').style.display = 'inline';
+                document.getElementById('login-loading').classList.add('hidden');
+                
+                // Show welcome message
+                showNotification(`Welcome back, ${student.name}!`, "success");
+                createConfetti();
+                
+            }, 1500);
+        }
+        
+        function studentRegister() {
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const mobile = document.getElementById('register-mobile').value.trim();
+            const branch = document.getElementById('register-branch').value;
+            const year = document.getElementById('register-year').value;
+            const semester = document.getElementById('register-semester').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Validation
+            if (!name || !email || !mobile || !branch || !year || !semester || !password || !confirmPassword) {
+                showNotification("Please fill in all fields", "warning");
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification("Passwords do not match", "danger");
+                return;
+            }
+            
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                showNotification("Please enter a valid 10-digit mobile number", "warning");
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showNotification("Please enter a valid email address", "warning");
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('register-btn-text').style.display = 'none';
+            document.getElementById('register-loading').classList.remove('hidden');
+            
+            setTimeout(() => {
+                const students = getStudentsFromStorage();
+                
+                // Check duplicates
+                if (students.some(s => s.email === email)) {
+                    showNotification("Email already registered. Please login.", "danger");
+                    document.getElementById('register-btn-text').style.display = 'inline';
+                    document.getElementById('register-loading').classList.add('hidden');
+                    showLoginForm('login');
+                    return;
+                }
+                
+                if (students.some(s => s.mobile === mobile)) {
+                    showNotification("Mobile number already registered.", "danger");
+                    document.getElementById('register-btn-text').style.display = 'inline';
+                    document.getElementById('register-loading').classList.add('hidden');
+                    return;
+                }
+                
+                // Create student
+                const studentId = 'STU' + Date.now().toString().slice(-8);
+                const newStudent = {
+                    id: studentId,
+                    name: name,
+                    email: email,
+                    mobile: mobile,
+                    branch: branch,
+                    year: year,
+                    semester: semester,
+                    password: password,
+                    joinedDate: new Date().toISOString().split('T')[0],
+                    purchasedCourses: [],
+                    paymentHistory: [],
+                    totalSpent: 0,
+                    lastLogin: new Date().toISOString(),
+                    accessGranted: false
+                };
+                
+                // Save
+                students.push(newStudent);
+                localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify(students));
+                
+                // Auto login
+                currentStudent = newStudent;
+                localStorage.setItem(CURRENT_STUDENT_KEY, JSON.stringify(newStudent));
+                
+                // Update UI
+                updateStudentUI();
+                
+                // Close modal
+                closeLoginModal();
+                
+                // Reset
+                document.getElementById('register-btn-text').style.display = 'inline';
+                document.getElementById('register-loading').classList.add('hidden');
+                
+                // Welcome message
+                showNotification(`Welcome to Engineering Hub, ${name}! 🎉`, "success");
+                createConfetti();
+                
+            }, 1500);
+        }
+        
+        function checkStudentLoginStatus() {
+            const studentData = localStorage.getItem(CURRENT_STUDENT_KEY);
+            
+            if (studentData) {
+                try {
+                    currentStudent = JSON.parse(studentData);
+                    updateStudentUI();
+                } catch (e) {
+                    console.error("Error loading student data:", e);
+                    localStorage.removeItem(CURRENT_STUDENT_KEY);
+                }
+            }
+        }
+        
+        function updateStudentUI() {
+            if (currentStudent) {
+                // Update header
+                document.getElementById('student-profile').classList.remove('hidden');
+                document.getElementById('login-button').innerHTML = '<span>🚪 Logout</span>';
+                document.getElementById('login-button').onclick = studentLogout;
+                
+                // Set avatar
+                const initials = currentStudent.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                document.getElementById('user-avatar').textContent = initials;
+                document.getElementById('user-name').textContent = currentStudent.name;
+                document.getElementById('user-branch').textContent = `${currentStudent.branch.split(' ')[0]} - ${currentStudent.year}`;
+                
+                // Show dashboard
+                document.getElementById('student-dashboard').style.display = 'block';
+                updateDashboard();
+                
+                // Load materials if on materials tab
+                if (document.getElementById('materials-section').classList.contains('active')) {
+                    loadStudentMaterials();
+                }
+                
+            } else {
+                // Hide student UI
+                document.getElementById('student-profile').classList.add('hidden');
+                document.getElementById('login-button').innerHTML = '<span>👤 Student Login</span>';
+                document.getElementById('login-button').onclick = openLoginModal;
+                document.getElementById('student-dashboard').style.display = 'none';
+            }
+        }
+        
+        function updateDashboard() {
+            if (!currentStudent) return;
+            
+            // Update info
+            document.getElementById('dashboard-name').textContent = currentStudent.name;
+            document.getElementById('dashboard-branch').textContent = currentStudent.branch;
+            document.getElementById('dashboard-year').textContent = currentStudent.year;
+            document.getElementById('dashboard-semester').textContent = currentStudent.semester;
+            
+            // Update stats
+            const courseCount = currentStudent.purchasedCourses?.length || 0;
+            document.getElementById('courses-count').textContent = courseCount;
+            document.getElementById('total-spent').textContent = `₹${currentStudent.totalSpent || 0}`;
+            document.getElementById('materials-count').textContent = courseCount * 8;
+            
+            // Calculate validity days
+            if (currentStudent.subscriptionStart) {
+                const startDate = new Date(currentStudent.subscriptionStart);
+                const endDate = new Date(startDate);
+                endDate.setFullYear(endDate.getFullYear() + 1);
+                const today = new Date();
+                const daysRemaining = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
+                document.getElementById('validity').textContent = Math.max(0, daysRemaining);
+            } else {
+                document.getElementById('validity').textContent = '0';
+            }
+            
+            // Update purchased courses
+            const container = document.getElementById('purchased-courses');
+            const noCoursesMsg = document.getElementById('no-courses-msg');
+            
+            if (courseCount === 0) {
+                noCoursesMsg.style.display = 'block';
+                container.innerHTML = '';
+            } else {
+                noCoursesMsg.style.display = 'none';
+                container.innerHTML = '';
+                
+                currentStudent.purchasedCourses.forEach(courseId => {
+                    const course = AVAILABLE_COURSES[courseId];
+                    if (course) {
+                        const courseCard = document.createElement('div');
+                        courseCard.style.cssText = `
+                            background: white;
+                            padding: 20px;
+                            border-radius: 15px;
+                            min-width: 250px;
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                            border-left: 4px solid var(--success);
+                        `;
+                        courseCard.innerHTML = `
+                            <h4 style="margin-top: 0; color: var(--primary);">${course.name}</h4>
+                            <p><strong>Price:</strong> ₹${course.price}</p>
+                            <p><strong>Access:</strong> ${course.duration}</p>
+                            <p><strong>Status:</strong> <span style="color: ${currentStudent.accessGranted ? 'var(--success)' : 'var(--warning)'};">
+                                ${currentStudent.accessGranted ? '✓ Active' : '⏳ Pending Verification'}
+                            </span></p>
+                            <button class="btn btn-success" style="width: 100%; margin-top: 10px;" 
+                                    onclick="showTab('materials'); loadStudentMaterials();">
+                                ${currentStudent.accessGranted ? 'Access Materials' : 'Pending Access'}
+                            </button>
+                        `;
+                        container.appendChild(courseCard);
+                    }
+                });
+            }
+        }
+        
+        function openStudentDashboard() {
+            showTab('study');
+            updateDashboard();
+        }
+        
+        function studentLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                currentStudent = null;
+                localStorage.removeItem(CURRENT_STUDENT_KEY);
+                updateStudentUI();
+                showNotification("Successfully logged out", "info");
+            }
+        }
+        
+        // ==================== PAYMENT SYSTEM ====================
+        function initiatePayment(courseName, price, courseId) {
+            if (!currentStudent) {
+                showNotification("Please login first to make a purchase", "warning");
+                openLoginModal();
+                return;
+            }
+            
+            // Check if already purchased
+            if (currentStudent.purchasedCourses && currentStudent.purchasedCourses.includes(courseId)) {
+                showNotification(`You already have access to "${courseName}"`, "info");
+                return;
+            }
+            
+            // Set payment details
+            currentPaymentCourse = courseName;
+            currentPaymentPrice = price;
+            currentPaymentId = courseId;
+            
+            // Update payment modal
+            document.getElementById('payment-course-name').textContent = courseName;
+            document.getElementById('payment-course-price').textContent = price;
+            document.getElementById('payment-amount').textContent = price;
+            
+            // Reset screenshot upload
+            uploadedScreenshot = null;
+            document.getElementById('uploaded-screenshot').style.display = 'none';
+            document.getElementById('screenshot-upload').value = '';
+            
+            // Show payment modal
+            document.getElementById('payment-modal').style.display = 'flex';
+        }
+        
+        function handleScreenshotUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showNotification("Please upload an image file", "danger");
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification("Image size should be less than 5MB", "danger");
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedScreenshot = e.target.result;
+                
+                // Show preview
+                document.getElementById('screenshot-preview').src = e.target.result;
+                document.getElementById('uploaded-screenshot').style.display = 'block';
+                
+                showNotification("Screenshot uploaded successfully", "success");
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function shareOnWhatsApp() {
+            if (!uploadedScreenshot) {
+                showNotification("Please upload payment screenshot first", "warning");
+                return;
+            }
+            
+            const message = `Payment for Engineering Resource Hub\n\nCourse: ${currentPaymentCourse}\nAmount: ₹${currentPaymentPrice}\nStudent: ${currentStudent.name}\nMobile: ${currentStudent.mobile}\n\nPayment screenshot attached. Please verify and grant access.`;
+            const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+            showNotification("Opening WhatsApp... Share the screenshot manually", "info");
+        }
+        
+        function completePayment() {
+            if (!uploadedScreenshot) {
+                showNotification("Please upload payment screenshot first", "warning");
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('payment-loading').classList.remove('hidden');
+            
+            setTimeout(() => {
+                // Update student record
+                const students = getStudentsFromStorage();
+                const studentIndex = students.findIndex(s => s.id === currentStudent.id);
+                
+                if (studentIndex !== -1) {
+                    if (!students[studentIndex].purchasedCourses) students[studentIndex].purchasedCourses = [];
+                    students[studentIndex].purchasedCourses.push(currentPaymentId);
+                    
+                    students[studentIndex].totalSpent = (students[studentIndex].totalSpent || 0) + currentPaymentPrice;
+                    students[studentIndex].paymentScreenshot = uploadedScreenshot;
+                    students[studentIndex].paymentPending = true;
+                    students[studentIndex].paymentDate = new Date().toISOString();
+                    
+                    localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify(students));
+                    
+                    // Update current student
+                    currentStudent = students[studentIndex];
+                    localStorage.setItem(CURRENT_STUDENT_KEY, JSON.stringify(currentStudent));
+                    
+                    // Update UI
+                    updateStudentUI();
+                    
+                    // Close payment modal
+                    document.getElementById('payment-modal').style.display = 'none';
+                    document.getElementById('payment-loading').classList.add('hidden');
+                    
+                    // Show success message
+                    showNotification("🎉 Payment recorded successfully! Access will be granted within 24 hours after verification.", "success");
+                    createConfetti();
+                    
+                    // Refresh database if authority is logged in
+                    if (currentAuthority) {
+                        refreshDatabase();
+                    }
+                }
+            }, 2000);
+        }
+        
+        // ==================== JARVIS AI ADVISOR FUNCTIONS ====================
+        function toggleJarvis() {
+            const jarvisAI = document.getElementById('jarvis-ai');
+            const jarvisIcon = document.getElementById('jarvis-icon');
+            
+            if (isJarvisOpen) {
+                jarvisAI.style.display = 'none';
+                jarvisIcon.textContent = '▼';
+                isJarvisOpen = false;
+            } else {
+                jarvisAI.style.display = 'block';
+                jarvisIcon.textContent = '▲';
+                isJarvisOpen = true;
+            }
+        }
+        
+        function displayAdvice(index) {
+            const advice = ENGINEERING_ADVICES[index];
+            document.getElementById('advice-category').textContent = advice.category;
+            document.getElementById('advice-text').textContent = advice.text;
+            document.getElementById('advice-author').textContent = advice.author;
+            document.getElementById('advice-counter').textContent = (index + 1) + " of " + ENGINEERING_ADVICES.length;
+            currentAdviceIndex = index;
+        }
+        
+        function nextAdvice() {
+            currentAdviceIndex = (currentAdviceIndex + 1) % ENGINEERING_ADVICES.length;
+            displayAdvice(currentAdviceIndex);
+        }
+        
+        function prevAdvice() {
+            currentAdviceIndex = (currentAdviceIndex - 1 + ENGINEERING_ADVICES.length) % ENGINEERING_ADVICES.length;
+            displayAdvice(currentAdviceIndex);
+        }
+        
+        function randomAdvice() {
+            const randomIndex = Math.floor(Math.random() * ENGINEERING_ADVICES.length);
+            displayAdvice(randomIndex);
+            createConfetti();
+        }
+        
+        // ==================== AUTHORITY SYSTEM ====================
+        function checkAuthority() {
+            const code = document.getElementById('adminCode').value.trim();
+            
+            if (!code) {
+                showNotification("Please enter an access code", "warning");
+                return;
+            }
+            
+            if (!AUTHORITY_CODES[code]) {
+                showNotification("Unauthorized access attempt logged", "danger");
+                // Trigger security alert after multiple attempts
+                screenshotAttempts++;
+                if (screenshotAttempts >= 3) {
+                    triggerSecurityAlert();
+                }
+                return;
+            }
+            
+            // Show scanner
+            const scanner = document.getElementById('eye-scanner');
+            scanner.style.display = 'block';
+            
+            // Start camera for eye scanning (simulated)
+            startEyeScanner();
+            
+            setTimeout(() => {
+                scanner.style.display = 'none';
+                
+                const user = AUTHORITY_CODES[code];
+                currentAuthority = user;
+                
+                // Show success
+                document.getElementById('auth-result-text').textContent = `✅ Identity Verified - Welcome, ${user.name}`;
+                document.getElementById('authorization-result').style.display = 'block';
+                
+                createConfetti();
+                
+            }, 3000);
+        }
+        
+        function startEyeScanner() {
+            // In a real implementation, this would access the device camera
+            // For demo purposes, we'll simulate the camera
+            const video = document.getElementById('eye-scanner-video');
+            
+            // Try to access actual camera
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    } 
+                })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                    console.log("Camera access denied: ", err);
+                    // Use placeholder for demo
+                    video.src = "https://via.placeholder.com/350x250/2c3e50/ffffff?text=Eye+Scanner+Active";
+                });
+            } else {
+                // Fallback for browsers without camera support
+                video.src = "https://via.placeholder.com/350x250/2c3e50/ffffff?text=Eye+Scanner+Active";
+            }
+        }
+        
+        function proceedToDashboard() {
+            document.getElementById('auth-gateway').style.display = 'none';
+            document.getElementById('authority-dashboard').style.display = 'block';
+            
+            const userDisplay = document.getElementById('current-user-display');
+            const adminName = document.getElementById('admin-name');
+            
+            if (userDisplay) userDisplay.textContent = `🔐 Logged in as: ${currentAuthority.name}`;
+            if (adminName) adminName.textContent = currentAuthority.name;
+            
+            // Refresh database view
+            refreshDatabase();
+            
+            // Load initial branch content
+            const branchSelect = document.getElementById('branch-management-select');
+            if (branchSelect.value) {
+                loadBranchContent();
+            }
+        }
+        
+        function logoutAuthority() {
+            if (confirm("Logout from authority dashboard?")) {
+                currentAuthority = null;
+                document.getElementById('auth-gateway').style.display = 'block';
+                document.getElementById('authority-dashboard').style.display = 'none';
+                document.getElementById('authorization-result').style.display = 'none';
+                document.getElementById('adminCode').value = '';
+                document.getElementById('current-user-display').textContent = '';
+                
+                // Stop camera if running
+                const video = document.getElementById('eye-scanner-video');
+                if (video.srcObject) {
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                }
+                
+                showNotification("Authority session ended", "info");
+            }
+        }
+        
+        // ==================== SECURITY SYSTEM ====================
+        function initializeSecurity() {
+            // Screenshot prevention
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'PrintScreen') {
+                    navigator.clipboard.writeText('');
+                    triggerSecurityAlert();
+                }
+            });
+            
+            // Block developer tools
+            document.addEventListener('contextmenu', (e) => e.preventDefault());
+            
+            // Block shortcuts
+            const blockedKeys = [
+                { key: 'p', ctrl: true }, // Print
+                { key: 's', ctrl: true }, // Save
+                { key: 'u', ctrl: true }, // View source
+                { key: 'i', ctrl: true, shift: true }, // Developer tools
+                { key: 'j', ctrl: true, shift: true }, // Developer tools
+                { key: 'c', ctrl: true, shift: true }, // Developer tools
+                { key: 'F12', ctrl: false }, // Developer tools
+                { key: 'F11', ctrl: false }, // Full screen
+            ];
+            
+            document.addEventListener('keydown', (e) => {
+                // Check for blocked key combinations
+                const isBlocked = blockedKeys.some(block =>
+                    (e.key.toLowerCase() === block.key.toLowerCase()) &&
+                    (block.ctrl === undefined || e.ctrlKey === block.ctrl) &&
+                    (block.shift === undefined || e.shiftKey === block.shift)
+                );
+                
+                if (isBlocked) {
+                    e.preventDefault();
+                    triggerSecurityAlert();
+                }
+                
+                // Also block right-click menu shortcuts
+                if (e.ctrlKey && e.shiftKey) {
+                    triggerSecurityAlert();
+                }
+            });
+            
+            // Detect DevTools opening
+            let devtools = /./;
+            devtools.toString = function() {
+                triggerSecurityAlert();
+                return '';
+            };
+            
+            console.log('%c', devtools);
+            
+            // Clear clipboard on blur
+            window.addEventListener('blur', () => {
+                if (currentAuthority) {
+                    navigator.clipboard.writeText('');
+                    console.log("Security: Clipboard cleared on window blur");
+                }
+            });
+            
+            // Prevent image drag
+            document.addEventListener('dragstart', (e) => {
+                if (e.target.tagName === 'IMG') {
+                    e.preventDefault();
+                    showNotification("Image dragging is disabled", "warning");
+                }
+            });
+            
+            // Double tap prevention
+            let lastTap = 0;
+            document.addEventListener('touchend', function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                    e.preventDefault();
+                    showNotification("Double tap disabled", "warning");
+                }
+                lastTap = currentTime;
+            });
+        }
+        
+        function triggerSecurityAlert() {
+            screenshotAttempts++;
+            
+            if (screenshotAttempts >= 2) {
+                showNotification("⚠️ Security violation detected! Multiple attempts logged.", "danger");
+            }
+            
+            // Show security overlay
+            const overlay = document.getElementById('security-overlay');
+            overlay.style.display = 'flex';
+            
+            // Start countdown
+            let countdown = 10;
+            const countdownElement = document.getElementById('security-countdown');
+            const secondsElement = document.getElementById('countdown-seconds');
+            
+            securityTimer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                secondsElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    dismissSecurityAlert();
+                }
+            }, 1000);
+        }
+        
+        function dismissSecurityAlert() {
+            const overlay = document.getElementById('security-overlay');
+            overlay.style.display = 'none';
+            
+            if (securityTimer) {
+                clearInterval(securityTimer);
+                securityTimer = null;
+            }
+            
+            showNotification("Security alert dismissed. Be cautious with sensitive data.", "warning");
+        }
+        
+        // ==================== TAB SYSTEM ====================
+        function showTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(tabName + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Load materials if showing materials tab
+                if (tabName === 'materials' && currentStudent) {
+                    loadStudentMaterials();
+                }
+            }
+            
+            // Add active to clicked tab
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function showNotification(message, type = "info") {
+            // Remove existing notifications
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 24px;">
+                        ${type === 'success' ? '✅' : type === 'danger' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
+                    </span>
+                    <div>
+                        <strong>${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+                        <p style="margin: 5px 0 0 0;">${message}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideInRight 0.5s ease-out reverse';
+                    setTimeout(() => notification.remove(), 500);
+                }
+            }, 5000);
+        }
+        
+        function createConfetti() {
+            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6'];
+            
+            for (let i = 0; i < 75; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.width = Math.random() * 15 + 5 + 'px';
+                confetti.style.height = Math.random() * 15 + 5 + 'px';
+                
+                document.body.appendChild(confetti);
+                confetti.style.animation = `confettiRain ${Math.random() * 3 + 2}s linear forwards`;
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // ==================== COURSE MANAGEMENT SYSTEM ====================
+        function loadBranchContent() {
+            const branchSelect = document.getElementById('branch-management-select');
+            const selectedBranch = branchSelect.value;
+            
+            if (!selectedBranch) {
+                document.getElementById('year-management-container').style.display = 'none';
+                document.getElementById('semester-management-container').style.display = 'none';
+                document.getElementById('subject-management-container').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('year-management-container').style.display = 'block';
+            
+            // Reset year buttons
+            const yearButtons = document.querySelectorAll('#year-management-selector .year-btn');
+            yearButtons.forEach(btn => btn.classList.remove('active'));
+        }
+        
+        function selectYearForManagement(year) {
+            const branchSelect = document.getElementById('branch-management-select');
+            const selectedBranch = branchSelect.value;
+            
+            if (!selectedBranch) return;
+            
+            // Update active year button
+            const yearButtons = document.querySelectorAll('#year-management-selector .year-btn');
+            yearButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show semester selector
+            document.getElementById('semester-management-container').style.display = 'block';
+            
+            // Load semesters for selected year
+            const courses = getCoursesFromStorage();
+            const yearKey = ["First Year", "Second Year", "Third Year", "Fourth Year"][year - 1];
+            const semesters = courses[selectedBranch] && courses[selectedBranch][yearKey] ? 
+                Object.keys(courses[selectedBranch][yearKey]) : 
+                ["1st Sem", "2nd Sem"];
+            
+            const semesterSelector = document.getElementById('semester-management-selector');
+            semesterSelector.innerHTML = '';
+            
+            semesters.forEach(semester => {
+                const semesterBtn = document.createElement('button');
+                semesterBtn.className = 'semester-btn';
+                semesterBtn.textContent = semester;
+                semesterBtn.onclick = () => selectSemesterForManagement(yearKey, semester, selectedBranch);
+                semesterSelector.appendChild(semesterBtn);
+            });
+            
+            // Reset subject container
+            document.getElementById('subject-management-container').style.display = 'none';
+        }
+        
+        function selectSemesterForManagement(year, semester, branch) {
+            // Update active semester button
+            const semesterButtons = document.querySelectorAll('#semester-management-selector .semester-btn');
+            semesterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show subject editor
+            document.getElementById('subject-management-container').style.display = 'block';
+            
+            // Load subjects for selected semester
+            const courses = getCoursesFromStorage();
+            const subjects = courses[branch] && courses[branch][year] && courses[branch][year][semester] ?
+                courses[branch][year][semester] : [];
+            
+            const subjectEditor = document.getElementById('subject-editor');
+            subjectEditor.innerHTML = '';
+            
+            // Header
+            const header = document.createElement('div');
+            header.className = 'subject-header';
+            header.innerHTML = `
+                <h3 style="color: var(--primary);">${semester} Subjects</h3>
+                <button class="btn btn-success" onclick="addNewSubject('${branch}', '${year}', '${semester}')">+ Add Subject</button>
+            `;
+            subjectEditor.appendChild(header);
+            
+            // Subject count input
+            const countDiv = document.createElement('div');
+            countDiv.style.margin = '20px 0';
+            countDiv.innerHTML = `
+                <label style="font-weight: bold; margin-right: 10px;">Number of Subjects:</label>
+                <input type="number" id="subject-count" value="${subjects.length}" min="1" max="12" 
+                       style="width: 80px; padding: 8px; border: 2px solid #ddd; border-radius: 5px;"
+                       onchange="updateSubjectCount('${branch}', '${year}', '${semester}', this.value)">
+            `;
+            subjectEditor.appendChild(countDiv);
+            
+            // Subjects list
+            const subjectsList = document.createElement('div');
+            subjectsList.id = 'subjects-list';
+            
+            subjects.forEach((subject, index) => {
+                const subjectItem = createSubjectItem(branch, year, semester, subject, index);
+                subjectsList.appendChild(subjectItem);
+            });
+            
+            subjectEditor.appendChild(subjectsList);
+            
+            // Materials upload section
+            const materialsDiv = document.createElement('div');
+            materialsDiv.style.marginTop = '30px';
+            materialsDiv.innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 15px;">Upload Study Materials</h3>
+                <div class="file-upload-area" onclick="document.getElementById('material-files').click()">
+                    <input type="file" id="material-files" multiple style="display: none;" 
+                           onchange="handleMaterialUpload(event, '${branch}', '${year}', '${semester}')">
+                    <h4>📁 Drag & Drop Files Here</h4>
+                    <p>or click to browse</p>
+                    <small>Supported: PDF, DOC, PPT, JPG, PNG (Max: 10MB each)</small>
+                </div>
+                <div id="uploaded-materials-list" class="uploaded-files"></div>
+            `;
+            subjectEditor.appendChild(materialsDiv);
+        }
+        
+        function createSubjectItem(branch, year, semester, subjectName, index) {
+            const div = document.createElement('div');
+            div.className = 'subject-item';
+            div.innerHTML = `
+                <div class="subject-header">
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0; color: var(--dark);">Subject ${index + 1}</h4>
+                        <input type="text" value="${subjectName}" 
+                               onchange="updateSubjectName('${branch}', '${year}', '${semester}', ${index}, this.value)"
+                               style="width: 100%; padding: 10px; margin-top: 10px; border: 2px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div>
+                        <button class="btn btn-danger" style="padding: 8px 15px;" 
+                                onclick="removeSubject('${branch}', '${year}', '${semester}', ${index})">Remove</button>
+                    </div>
+                </div>
+             
+<div style="margin-top: 15px;">
+                    <textarea placeholder="Add subject description, important topics, or notes..." 
+                              onchange="updateSubjectDescription('${branch}', '${year}', '${semester}', ${index}, this.value)"
+                              style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; min-height: 80px;">${getSubjectDescription(branch, year, semester, index) || ''}</textarea>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="btn btn-primary" style="padding: 8px 15px;" 
+                            onclick="manageSubjectMaterials('${branch}', '${year}', '${semester}', ${index})">
+                        📁 Manage Materials
+                    </button>
+                </div>
+            `;
+            return div;
+        }
+        
+        function getSubjectDescription(branch, year, semester, index) {
+            const materials = getMaterialsFromStorage();
+            const key = `${branch}-${year}-${semester}-${index}`;
+            return materials[key] ? materials[key].description : '';
+        }
+        
+        function updateSubjectName(branch, year, semester, index, newName) {
+            const courses = getCoursesFromStorage();
+            
+            if (!courses[branch]) courses[branch] = {};
+            if (!courses[branch][year]) courses[branch][year] = {};
+            if (!courses[branch][year][semester]) courses[branch][year][semester] = [];
+            
+            courses[branch][year][semester][index] = newName;
+            
+            localStorage.setItem(COURSES_STORAGE_KEY, JSON.stringify(courses));
+            showNotification("Subject name updated", "success");
+        }
+        
+        function updateSubjectCount(branch, year, semester, count) {
+            const courses = getCoursesFromStorage();
+            const currentCount = courses[branch][year][semester].length;
+            count = parseInt(count);
+            
+            if (count > currentCount) {
+                // Add new subjects
+                for (let i = currentCount; i < count; i++) {
+                    courses[branch][year][semester].push(`Subject ${i + 1}`);
+                }
+            } else if (count < currentCount) {
+                // Remove subjects (keep first 'count' subjects)
+                courses[branch][year][semester] = courses[branch][year][semester].slice(0, count);
+            }
+            
+            localStorage.setItem(COURSES_STORAGE_KEY, JSON.stringify(courses));
+            
+            // Refresh the view
+            selectSemesterForManagement(year, semester, branch);
+            
+            showNotification(`Updated to ${count} subjects`, "success");
+        }
+        
+        function addNewSubject(branch, year, semester) {
+            const courses = getCoursesFromStorage();
+            const subjectCount = courses[branch][year][semester].length;
+            courses[branch][year][semester].push(`New Subject ${subjectCount + 1}`);
+            
+            localStorage.setItem(COURSES_STORAGE_KEY, JSON.stringify(courses));
+            
+            // Refresh the view
+            selectSemesterForManagement(year, semester, branch);
+            
+            showNotification("New subject added", "success");
+        }
+        
+        function removeSubject(branch, year, semester, index) {
+            if (confirm("Are you sure you want to remove this subject?")) {
+                const courses = getCoursesFromStorage();
+                courses[branch][year][semester].splice(index, 1);
+                
+                localStorage.setItem(COURSES_STORAGE_KEY, JSON.stringify(courses));
+                
+                // Refresh the view
+                selectSemesterForManagement(year, semester, branch);
+                
+                showNotification("Subject removed", "danger");
+            }
+        }
+        
+        function updateSubjectDescription(branch, year, semester, index, description) {
+            const materials = getMaterialsFromStorage();
+            const key = `${branch}-${year}-${semester}-${index}`;
+            
+            if (!materials[key]) materials[key] = { files: [], description: '' };
+            materials[key].description = description;
+            
+            localStorage.setItem(MATERIALS_STORAGE_KEY, JSON.stringify(materials));
+        }
+        
+        function handleMaterialUpload(event, branch, year, semester) {
+            const files = event.target.files;
+            const uploadedList = document.getElementById('uploaded-materials-list');
+            
+            for (let file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification(`File ${file.name} is too large (max 10MB)`, "danger");
+                    continue;
+                }
+                
+                // Simulate file upload
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div>
+                        <strong>${file.name}</strong>
+                        <br>
+                        <small>${(file.size / 1024 / 1024).toFixed(2)} MB</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" 
+                                onclick="this.parentElement.parentElement.remove()">Remove</button>
+                    </div>
+                `;
+                
+                uploadedList.appendChild(fileItem);
+                
+                // Store file info in materials storage
+                const materials = getMaterialsFromStorage();
+                const key = `${branch}-${year}-${semester}`;
+                
+                if (!materials[key]) materials[key] = { files: [] };
+                
+                materials[key].files.push({
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    uploaded: new Date().toISOString(),
+                    url: URL.createObjectURL(file) // In real app, this would be server URL
+                });
+                
+                localStorage.setItem(MATERIALS_STORAGE_KEY, JSON.stringify(materials));
+            }
+            
+            showNotification(`${files.length} file(s) uploaded successfully`, "success");
+        }
+        
+        function manageSubjectMaterials(branch, year, semester, subjectIndex) {
+            const courses = getCoursesFromStorage();
+            const subjectName = courses[branch][year][semester][subjectIndex];
+            
+            alert(`Managing materials for: ${subjectName}\n\nThis feature allows you to:\n1. Upload PDF notes\n2. Add video links\n3. Create quizzes\n4. Add reference materials\n\nFull implementation would include a comprehensive file management system.`);
+        }
+        
+        // ==================== STUDENT MATERIALS ACCESS ====================
+        function loadStudentMaterials() {
+            if (!currentStudent) return;
+            
+            const materialsAccess = document.getElementById('materials-access');
+            const noAccessMessage = document.getElementById('no-access-message');
+            const branchSelectorContainer = document.getElementById('branch-selector-container');
+            const yearSelectorContainer = document.getElementById('year-selector-container');
+            const semesterContainer = document.getElementById('semester-materials-container');
+            
+            // Check if student has access
+            if (!currentStudent.accessGranted) {
+                noAccessMessage.style.display = 'block';
+                branchSelectorContainer.style.display = 'none';
+                yearSelectorContainer.style.display = 'none';
+                semesterContainer.style.display = 'none';
+                return;
+            }
+            
+            // Student has access
+            noAccessMessage.style.display = 'none';
+            branchSelectorContainer.style.display = 'block';
+            
+            // Load branches from purchased courses
+            const branchSelector = document.getElementById('branch-selector');
+            branchSelector.innerHTML = '';
+            
+            const purchasedBranches = new Set();
+            currentStudent.purchasedCourses?.forEach(courseId => {
+                const course = AVAILABLE_COURSES[courseId];
+                if (course && course.branch !== 'All') {
+                    purchasedBranches.add(course.branch);
+                }
+            });
+            
+            if (purchasedBranches.size === 0) {
+                noAccessMessage.style.display = 'block';
+                branchSelectorContainer.style.display = 'none';
+                return;
+            }
+            
+            purchasedBranches.forEach(branch => {
+                const branchCard = document.createElement('div');
+                branchCard.className = 'branch-card';
+                branchCard.textContent = branch;
+                branchCard.onclick = () => selectBranchForMaterials(branch);
+                branchSelector.appendChild(branchCard);
+            });
+            
+            // Reset other containers
+            yearSelectorContainer.style.display = 'none';
+            semesterContainer.style.display = 'none';
+        }
+        
+        function selectBranchForMaterials(branch) {
+            // Update active branch card
+            const branchCards = document.querySelectorAll('#branch-selector .branch-card');
+            branchCards.forEach(card => card.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show year selector
+            const yearSelectorContainer = document.getElementById('year-selector-container');
+            const yearSelector = document.getElementById('year-selector');
+            
+            yearSelectorContainer.style.display = 'block';
+            yearSelector.innerHTML = '';
+            
+            // Determine available years based on student's year
+            const studentYear = currentStudent.year;
+            const yearOptions = [];
+            
+            if (studentYear === "First Year") yearOptions.push("First Year");
+            if (studentYear === "Second Year") yearOptions.push("First Year", "Second Year");
+            if (studentYear === "Third Year") yearOptions.push("First Year", "Second Year", "Third Year");
+            if (studentYear === "Fourth Year") yearOptions.push("First Year", "Second Year", "Third Year", "Fourth Year");
+            
+            yearOptions.forEach(year => {
+                const yearBtn = document.createElement('button');
+                yearBtn.className = 'year-btn';
+                yearBtn.textContent = year;
+                yearBtn.onclick = () => selectYearForMaterials(branch, year);
+                yearSelector.appendChild(yearBtn);
+            });
+            
+            // Reset semester container
+            document.getElementById('semester-materials-container').style.display = 'none';
+        }
+        
+        function selectYearForMaterials(branch, year) {
+            // Update active year button
+            const yearButtons = document.querySelectorAll('#year-selector .year-btn');
+            yearButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show semester materials
+            const semesterContainer = document.getElementById('semester-materials-container');
+            semesterContainer.style.display = 'block';
+            semesterContainer.innerHTML = '';
+            
+            // Load courses structure
+            const courses = getCoursesFromStorage();
+            const materials = getMaterialsFromStorage();
+            
+            if (courses[branch] && courses[branch][year]) {
+                Object.keys(courses[branch][year]).forEach(semester => {
+                    const semesterDiv = document.createElement('div');
+                    semesterDiv.className = 'semester-materials';
+                    semesterDiv.innerHTML = `
+                        <h3 style="color: var(--primary); margin-bottom: 15px;">${semester}</h3>
+                        <div id="subjects-${semester.replace(/\s+/g, '-')}"></div>
+                    `;
+                    semesterContainer.appendChild(semesterDiv);
+                    
+                    // Load subjects for this semester
+                    const subjects = courses[branch][year][semester];
+                    const subjectsContainer = document.getElementById(`subjects-${semester.replace(/\s+/g, '-')}`);
+                    
+                    subjects.forEach((subject, index) => {
+                        const subjectDiv = document.createElement('div');
+                        subjectDiv.className = 'subject-materials';
+                        
+                        const materialsKey = `${branch}-${year}-${semester}-${index}`;
+                        const subjectMaterials = materials[materialsKey] || { files: [], description: '' };
+                        
+                        subjectDiv.innerHTML = `
+                            <div class="subject-header">
+                                <h4 style="margin: 0; color: var(--dark);">${subject}</h4>
+                                <span style="color: var(--success); font-weight: bold;">✓ Available</span>
+                            </div>
+                            ${subjectMaterials.description ? 
+                                `<p style="color: var(--gray); margin: 10px 0;">${subjectMaterials.description}</p>` : ''}
+                            <div class="material-files">
+                                ${subjectMaterials.files.length > 0 ? 
+                                    subjectMaterials.files.map(file => `
+                                        <div class="file-card">
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <span style="font-size: 24px;">📄</span>
+                                                <div style="flex: 1;">
+                                                    <strong>${file.name}</strong>
+                                                    <p style="margin: 5px 0; color: var(--gray); font-size: 0.9em;">
+                                                        ${(file.size / 1024 / 1024).toFixed(2)} MB • ${file.type}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button class="download-btn" onclick="downloadMaterial('${file.url}', '${file.name}')">
+                                                ⬇️ Download
+                                            </button>
+                                        </div>
+                                    `).join('') :
+                                    '<p style="color: var(--gray); text-align: center; padding: 20px;">No materials uploaded yet</p>'
+                                }
+                            </div>
+                        `;
+                        
+                        subjectsContainer.appendChild(subjectDiv);
+                    });
+                });
+            } else {
+                semesterContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gray);">
+                        <h3>No materials available for ${year}</h3>
+                        <p>Materials will be uploaded by authorities soon.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function downloadMaterial(url, filename) {
+            // In a real implementation, this would trigger actual download
+            // For demo, we'll simulate download
+            showNotification(`Downloading ${filename}...`, "info");
+            
+            // Create temporary link
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Log download activity
+            console.log(`Student ${currentStudent.name} downloaded: ${filename}`);
+        }
+        
+        // Initialize everything
+        window.onload = function() {
+            console.log("Engineering Resource Hub fully loaded - Complete System");
+            console.log(`Total advices loaded: ${ENGINEERING_ADVICES.length}`);
+            console.log(`Student system: ${getStudentsFromStorage().length} registered students`);
+            console.log(`Security system: Active with screenshot prevention`);
+            
+            // Auto-show welcome for first-time visitors
+            if (!localStorage.getItem('first_visit_shown')) {
+                setTimeout(() => {
+                    showNotification("Welcome to Engineering Resource Hub! 🤖 Click the Senior's Advice button for wisdom.", "info");
+                    localStorage.setItem('first_visit_shown', 'true');
+                }, 3000);
+            }
+        };
+    </script>
+</body>
+</html>
