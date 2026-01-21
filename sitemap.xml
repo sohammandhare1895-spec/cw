@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    
+    <!-- Home / Study Materials Section -->
+    <url>
+        <loc>https://engineeringhub.example.com/</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/"/>
+    </url>
+    
+    <!-- My Materials Section -->
+    <url>
+        <loc>https://engineeringhub.example.com/#materials</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/#materials"/>
+    </url>
+    
+    <!-- Question Papers Section -->
+    <url>
+        <loc>https://engineeringhub.example.com/#papers</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/#papers"/>
+    </url>
+    
+    <!-- Authority Portal Section -->
+    <url>
+        <loc>https://engineeringhub.example.com/#profile</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/#profile"/>
+    </url>
+    
+    <!-- Placement Resources Section -->
+    <url>
+        <loc>https://engineeringhub.example.com/#resources</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/#resources"/>
+    </url>
+    
+    <!-- Mechanical Engineering Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/mechanical-engineering</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/mechanical-engineering"/>
+    </url>
+    
+    <!-- Computer Science & Engineering Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/computer-science</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/computer-science"/>
+    </url>
+    
+    <!-- Artificial Intelligence & Engineering Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/artificial-intelligence</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/artificial-intelligence"/>
+    </url>
+    
+    <!-- Information Technology Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/information-technology</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/information-technology"/>
+    </url>
+    
+    <!-- Electronics & Telecommunication Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/electronics-telecommunication</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/electronics-telecommunication"/>
+    </url>
+    
+    <!-- Civil Engineering Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/civil-engineering</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/civil-engineering"/>
+    </url>
+    
+    <!-- Electrical Engineering Materials -->
+    <url>
+        <loc>https://engineeringhub.example.com/courses/electrical-engineering</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/courses/electrical-engineering"/>
+    </url>
+    
+    <!-- Student Login Portal -->
+    <url>
+        <loc>https://engineeringhub.example.com/login</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/login"/>
+    </url>
+    
+    <!-- Student Registration -->
+    <url>
+        <loc>https://engineeringhub.example.com/register</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/register"/>
+    </url>
+    
+    <!-- Payment Portal -->
+    <url>
+        <loc>https://engineeringhub.example.com/payment</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/payment"/>
+    </url>
+    
+    <!-- Previous Year Papers 2023-24 -->
+    <url>
+        <loc>https://engineeringhub.example.com/papers/2023-24</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/papers/2023-24"/>
+    </url>
+    
+    <!-- Solved Papers Collection -->
+    <url>
+        <loc>https://engineeringhub.example.com/papers/solved</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/papers/solved"/>
+    </url>
+    
+    <!-- Aptitude Test Preparation -->
+    <url>
+        <loc>https://engineeringhub.example.com/placement/aptitude</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/placement/aptitude"/>
+    </url>
+    
+    <!-- Technical Interview Preparation -->
+    <url>
+        <loc>https://engineeringhub.example.com/placement/technical</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/placement/technical"/>
+    </url>
+    
+    <!-- Resume Building -->
+    <url>
+        <loc>https://engineeringhub.example.com/placement/resume</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/placement/resume"/>
+    </url>
+    
+    <!-- About Page -->
+    <url>
+        <loc>https://engineeringhub.example.com/about</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/about"/>
+    </url>
+    
+    <!-- Contact Page -->
+    <url>
+        <loc>https://engineeringhub.example.com/contact</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/contact"/>
+    </url>
+    
+    <!-- Terms of Service -->
+    <url>
+        <loc>https://engineeringhub.example.com/terms</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/terms"/>
+    </url>
+    
+    <!-- Privacy Policy -->
+    <url>
+        <loc>https://engineeringhub.example.com/privacy</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/privacy"/>
+    </url>
+    
+    <!-- FAQ Page -->
+    <url>
+        <loc>https://engineeringhub.example.com/faq</loc>
+        <lastmod>2024-01-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://engineeringhub.example.com/faq"/>
+    </url>
+    
+</urlset>
